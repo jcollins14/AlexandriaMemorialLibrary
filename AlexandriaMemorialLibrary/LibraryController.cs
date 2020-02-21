@@ -17,18 +17,15 @@ namespace AlexandriaMemorialLibrary
     class LibraryController
     {
         private List<Book> Library { get; set; }
-        private List<Book.Genre> genres { get; set; }
         
-        
+
 
         public LibraryController()
         {
-            var arrayOfEnums = Enum.GetValues(typeof(Genre));//.Cast<Genre>().ToList();
-            Console.WriteLine(arrayOfEnums);
+            
+            
             Library = new List<Book>();
-            //genres = new List<Book.Genre>();
-            //genres.Add(Enum.GetNames (typeof(Genre)).Cast().ToList());
-           // genres.Add(Genre.SciFi);
+          
             Library.Add(new Book()
             {
                 Title = "Dune",

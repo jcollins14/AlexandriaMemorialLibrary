@@ -9,7 +9,7 @@ namespace AlexandriaMemorialLibrary
         public string Title { get; set; }
         public string Author { get; set; }
         public ulong ISBN { get; set; }
-        public List<string> genres = new List<string>();
+        public List<Genre> Genres = new List<Genre>();
         public enum Genre {
             Fantasy,
             SciFi,
@@ -31,6 +31,7 @@ namespace AlexandriaMemorialLibrary
             this.Title = title;
             this.Author = author;
             this.ISBN = isbn;
+            this.
             this.Status = status;
             
         }
