@@ -85,6 +85,16 @@ namespace AlexandriaMemorialLibrary
                 DueDate = new DateTime(1800, 1, 1)
             }
             );
+            Library.Add(new Book()
+            {
+                Title = "Watchmen",
+                Author = "Alan Moore",
+                ISBN = 9781779501129,
+                Status = Status.OnShelf,
+                Genre = new List<Genre>() { Genre.GraphicNovel, Genre.Mystery, Genre.SciFi },
+                DueDate = new DateTime(1800, 1, 1)
+            }
+            );
         }
 
         public void Run()
@@ -106,9 +116,12 @@ namespace AlexandriaMemorialLibrary
 
         public List<Book> Search(List<Book> library)
         {
+            //instantiate new book list for search results to add to
             List<Book> searchResults = new List<Book>();
+            //create list of items to remove from titles, etc (punctuation, spaces)
             List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
             Console.Clear();
+
             Console.WriteLine("Which Attribute would you like to Search for?");
             Console.WriteLine("1: Title");
             Console.WriteLine("2: Author");
@@ -127,6 +140,7 @@ namespace AlexandriaMemorialLibrary
                     selection = 0;
                 }
             }
+            //user picks an attribute of the Book object to search for
             switch (selection)
             {
                 case 1:
@@ -142,7 +156,9 @@ namespace AlexandriaMemorialLibrary
                     Console.WriteLine("Please enter a Genre to search for: ");
                     break;
             }
+
             string compare = Console.ReadLine().ToLower().Trim();
+            //second switch case uses intial option to keep consistency
             switch (selection)
             {
                 case 1:
@@ -223,6 +239,7 @@ namespace AlexandriaMemorialLibrary
             return searchResults;
         }
 
+        //used for exception catching and input validation. returns 9999999 on an error.
         public int UserInput()
         {
             int output = 0;
