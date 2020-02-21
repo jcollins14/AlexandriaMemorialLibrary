@@ -34,20 +34,25 @@ namespace AlexandriaMemorialLibrary
         public LibraryController()
         {
             Library = new List<Book>();
-            Library.Add(new Book) 
+            Library.Add(new Book()
             {
-                Title = "Dune";
-                Author = "Frank Herbert";
-                Status = Status.OnShelf;
-                List < Genre > = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy };
-                ISBN = 9780593099322;
-                DueDate = null;
+                Title = "Dune",
+                Author = "Frank Herbert",
+                ISBN = 9780593099322,
+                Status = Status.OnShelf,
+                //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
+                //DueDate = null
             }
+            );
         }
 
         public void Run()
         {
             Console.WriteLine("Hello World");
+            BookListView library = new BookListView(Library);
+            library.Display();
+            BookView view = new BookView(Library[0]);
+            view.Display();
         }
 
         public void Search()
@@ -62,7 +67,7 @@ namespace AlexandriaMemorialLibrary
             string input = Console.ReadLine().Trim().ToLower();
             try
             {
-                output = int.Parse(input)
+                output = int.Parse(input);
             }
             catch (FormatException)
             {

@@ -19,18 +19,18 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine("Author: " + ThisBook.Author);
             Console.WriteLine("Status: " + ThisBook.Status.ToString());
 
-            Console.Write("Genre(s): ");
-            foreach (Genre genre in ThisBook.Genre)
-            {
-                Console.Write(genre + " ");
-            }
+            //Console.Write("Genre(s): ");
+            //foreach (Genre genre in ThisBook.Genre)
+            //{
+            //    Console.Write(genre + " ");
+            //}
 
             Console.WriteLine(ThisBook.ISBN);
 
-            if (ThisBook.Status == Status.CheckedOut)
-            {
-                Console.WriteLine("Due Date: " + ThisBook.DueDate);
-            }
+            //if (ThisBook.Status.Equals(Status.CheckedOut))
+            //{
+            //    Console.WriteLine("Due Date: " + ThisBook.DueDate);
+            //}
         }
     }
 }

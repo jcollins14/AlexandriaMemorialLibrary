@@ -9,18 +9,22 @@ namespace AlexandriaMemorialLibrary
         public string Title { get; set; }
         public string Author { get; set; }
         public ulong ISBN { get; set; }
-        public List<Enum> Genre = new List<Enum>();
-        public List<Enum> Status = new List<Enum>();
-        public DateTime DueDate { get; set; }
+        //public List<Enum> Genre = new List<Enum>();
+        public Status Status { get; set; }
+        //public DateTime DueDate { get; set; }
 
-        public Book(string title, string author, ulong isbn, List<Enum>genre, List<Enum>status, DateTime dueDate)
+        public Book(string title, string author, ulong isbn, Status status)
         {
             this.Title = title;
             this.Author = author;
             this.ISBN = isbn;
-            this.Genre = genre;
+            //this.Genre = genre;
             this.Status = status;
-            this.DueDate = dueDate;
+            //this.DueDate = dueDate;
+        }
+        public Book()
+        {
+
         }
 
 
