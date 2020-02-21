@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static AlexandriaMemorialLibrary.Book;
 
 namespace AlexandriaMemorialLibrary
 {
+    
     enum Status
     {
         OnShelf,
@@ -31,10 +33,15 @@ namespace AlexandriaMemorialLibrary
     class LibraryController
     {
         private List<Book> Library { get; set; }
+        
+
 
         public LibraryController()
         {
+            
+            
             Library = new List<Book>();
+          
             Library.Add(new Book()
             {
                 Title = "Dune",

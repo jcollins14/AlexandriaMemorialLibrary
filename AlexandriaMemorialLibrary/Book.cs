@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AlexandriaMemorialLibrary
 {
-    class Book
+   class Book
     {
         public string Title { get; set; }
         public string Author { get; set; }
@@ -22,6 +22,7 @@ namespace AlexandriaMemorialLibrary
             this.Genre = genre;
             this.Status = status;
             this.DueDate = dueDate;
+
         }
         public Book()
         {
