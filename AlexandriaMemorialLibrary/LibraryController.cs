@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static AlexandriaMemorialLibrary.Book;
 
 namespace AlexandriaMemorialLibrary
 {
+    
     enum Status
     {
         OnShelf,
@@ -12,38 +14,31 @@ namespace AlexandriaMemorialLibrary
         Unavailable
     }
 
-    enum Genre
-    {
-        Fantasy,
-        SciFi,
-        Mystery,
-        Thriller,
-        Romance,
-        Manga,
-        SelfHelp,
-        Travel,
-        Adventure,
-        GraphicNovel,
-        Philosophy
-    }
-
     class LibraryController
     {
         private List<Book> Library { get; set; }
+        private List<Book.Genre> genres { get; set; }
+        
+        
 
         public LibraryController()
         {
+            var arrayOfEnums = Enum.GetValues(typeof(Genre));//.Cast<Genre>().ToList();
+            Console.WriteLine(arrayOfEnums);
             Library = new List<Book>();
+            //genres = new List<Book.Genre>();
+            //genres.Add(Enum.GetNames (typeof(Genre)).Cast().ToList());
+           // genres.Add(Genre.SciFi);
             Library.Add(new Book()
             {
                 Title = "Dune",
                 Author = "Frank Herbert",
                 ISBN = 9780593099322,
                 Status = Status.OnShelf,
-                //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
-                //DueDate = null
-            }
-            );
+                
+
+        }
+            ) ;
         }
 
         public void Run()
