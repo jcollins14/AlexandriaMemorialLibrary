@@ -88,7 +88,7 @@ namespace AlexandriaMemorialLibrary
 
         public void Run()
         {
-            List<Book> search = SearchTitle(Library);
+            List<Book> search = Search(Library);
             BookListView list = new BookListView(search);
             if (search.Count == 0)
             {
@@ -101,30 +101,102 @@ namespace AlexandriaMemorialLibrary
 
         }
 
-        public List<Book> SearchTitle(List<Book> library)
+        public List<Book> Search(List<Book> library)
         {
             List<Book> searchResults = new List<Book>();
+            List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
+            Console.Clear();
+            Console.WriteLine("Which Attribute would you like to Search for?");
+            Console.WriteLine("1: Title");
+            Console.WriteLine("2: Author");
+            Console.WriteLine("3: ISBN");
 
-            string search = Console.ReadLine().ToLower().Trim();
+            int selection = 0;
 
-            foreach (Book book in library)
+            while (selection == 0)
             {
-                string title = book.Title;
-                List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
-                for (int i = 0; i < title.Length; i++)
+                selection = UserInput();
+
+                if (selection <= 0 || selection > 3)
                 {
-                    if (delimiter.Contains(title[i]))
-                    {
-                        title = title.Remove(i,1);
-                    }
-                }
-                title = title.ToLower();
-                if (title.Contains(search))
-                {
-                    searchResults.Add(book);
+                    Console.WriteLine("Please select a valid option.");
+                    selection = 0;
                 }
             }
+            switch (selection)
+            {
+                case 1:
+                    Console.WriteLine("Please enter a title to search for: ");
+                    break;
+                case 2:
+                    Console.WriteLine("Please enter an author to search for: ");
+                    break;
+                case 3:
+                    Console.WriteLine("Please enter an ISBN to search for: ");
+                    break;
+            }
+            string compare = Console.ReadLine().ToLower().Trim();
+            switch (selection)
+            {
+                case 1:
+                    foreach (Book book in library)
+                    {
+                        string title = book.Title;
 
+                        for (int i = 0; i < title.Length; i++)
+                        {
+                            if (delimiter.Contains(title[i]))
+                            {
+                                title = title.Remove(i, 1);
+                            }
+                        }
+                        title = title.ToLower();
+                        if (title.Contains(compare))
+                        {
+                            searchResults.Add(book);
+                        }
+                    }
+                    break;
+                case 2:
+                    foreach (Book book in library)
+                    {
+                        string author = book.Author;
+
+                        for (int i = 0; i < author.Length; i++)
+                        {
+                            if (delimiter.Contains(author[i]))
+                            {
+                                author = author.Remove(i, 1);
+                            }
+                        }
+                        author = author.ToLower();
+                        if (author.Contains(compare))
+                        {
+                            searchResults.Add(book);
+                        }
+                    }
+                    break;
+                case 3:
+                    foreach (Book book in library)
+                    {
+                        ulong check = 0;
+                        ulong isbn = book.ISBN;
+                        try
+                        {
+                            check = ulong.Parse(compare);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Please only input numbers.");
+                        }
+                        if (isbn == check)
+                        {
+                            searchResults.Add(book);
+                        }
+                    }
+                    break;
+            }
+            
             return searchResults;
         }
 
