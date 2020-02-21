@@ -51,15 +51,11 @@ namespace AlexandriaMemorialLibrary
             BookListView library = new BookListView(Library);
             library.Display();
             Console.WriteLine();
-            BookView view = new BookView(Library[0]);
-            view.Display();
-            Console.WriteLine();
             Book dune = Library[0];
             dune.CheckOut();
-            view.Display();
-            Console.WriteLine();
-            dune.Return();
-            view.Display();
+            Library[0] = dune;
+            BookListView test = new BookListView(Library);
+            test.Display();
         }
 
         public void Search()
