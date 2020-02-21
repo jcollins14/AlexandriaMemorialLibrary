@@ -20,7 +20,7 @@ namespace AlexandriaMemorialLibrary
             foreach (Book currentBook in Library)
             {
                 string listing = i + ": " + currentBook.Title;
-                if (currentBook.Status == Status.CheckedOut)
+                if (currentBook.Status.Equals(Status.CheckedOut))
                 {
                     if (i <10)
                     {
