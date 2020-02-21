@@ -41,17 +41,24 @@ namespace AlexandriaMemorialLibrary
                 ISBN = 9780593099322,
                 Status = Status.OnShelf,
                 //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
-                //DueDate = null
+                DueDate = new DateTime(1800,1,1)
             }
             );
         }
 
         public void Run()
         {
-            Console.WriteLine("Hello World");
             BookListView library = new BookListView(Library);
             library.Display();
+            Console.WriteLine();
             BookView view = new BookView(Library[0]);
+            view.Display();
+            Console.WriteLine();
+            Book dune = Library[0];
+            dune.CheckOut();
+            view.Display();
+            Console.WriteLine();
+            dune.Return();
             view.Display();
         }
 

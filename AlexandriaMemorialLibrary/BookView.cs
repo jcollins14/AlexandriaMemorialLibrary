@@ -27,10 +27,10 @@ namespace AlexandriaMemorialLibrary
 
             Console.WriteLine(ThisBook.ISBN);
 
-            //if (ThisBook.Status.Equals(Status.CheckedOut))
-            //{
-            //    Console.WriteLine("Due Date: " + ThisBook.DueDate);
-            //}
+            if (ThisBook.Status.Equals(Status.CheckedOut))
+            {
+                Console.WriteLine("Due Date: " + ThisBook.DueDate);
+            }
         }
     }
 }
