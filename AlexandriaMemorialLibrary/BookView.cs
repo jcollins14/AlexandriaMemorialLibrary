@@ -17,15 +17,16 @@ namespace AlexandriaMemorialLibrary
         {
             Console.WriteLine("Title: " + ThisBook.Title);
             Console.WriteLine("Author: " + ThisBook.Author);
-            Console.WriteLine("Status: " + ThisBook.Status.ToString());
+            Console.WriteLine("Status: " + ThisBook.Status);
 
-            //Console.Write("Genre(s): ");
-            //foreach (Genre genre in ThisBook.Genre)
-            //{
-            //    Console.Write(genre + " ");
-            //}
+            Console.Write("Genre(s): ");
+            foreach (Genre genre in ThisBook.Genre)
+            {
+                Console.Write(genre + " ");
+            }
+            Console.WriteLine();
 
-            Console.WriteLine(ThisBook.ISBN);
+            Console.WriteLine("ISBN: " + ThisBook.ISBN);
 
             if (ThisBook.Status.Equals(Status.CheckedOut))
             {

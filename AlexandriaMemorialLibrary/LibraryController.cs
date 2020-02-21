@@ -24,7 +24,8 @@ namespace AlexandriaMemorialLibrary
         Travel,
         Adventure,
         GraphicNovel,
-        Philosophy
+        Philosophy,
+        Biography
     }
 
     class LibraryController
@@ -40,7 +41,7 @@ namespace AlexandriaMemorialLibrary
                 Author = "Frank Herbert",
                 ISBN = 9780593099322,
                 Status = Status.OnShelf,
-                //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
+                Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy },
                 DueDate = new DateTime(1800,1,1)
             }
             );
@@ -50,7 +51,7 @@ namespace AlexandriaMemorialLibrary
                 Author = "Cory Doctorow",
                 ISBN = 9781250228598,
                 Status = Status.OnShelf,
-                //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
+                Genre = new List<Genre>() { Genre.SciFi, },
                 DueDate = new DateTime(1800, 1, 1)
             }
             );
@@ -60,7 +61,7 @@ namespace AlexandriaMemorialLibrary
                 Author = "Adam Savage",
                 ISBN = 9781471185113,
                 Status = Status.OnShelf,
-                //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
+                Genre = new List<Genre>() { Genre.Biography },
                 DueDate = new DateTime(1800, 1, 1)
             }
             );
@@ -70,7 +71,7 @@ namespace AlexandriaMemorialLibrary
                 Author = "Bear Grylls",
                 ISBN = 9780062124135,
                 Status = Status.OnShelf,
-                //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
+                Genre = new List<Genre>() { Genre.Biography },
                 DueDate = new DateTime(1800, 1, 1)
             }
             );
@@ -80,7 +81,7 @@ namespace AlexandriaMemorialLibrary
                 Author = "Max Brooks",
                 ISBN = 9780307346612,
                 Status = Status.OnShelf,
-                //Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy }
+                Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Thriller },
                 DueDate = new DateTime(1800, 1, 1)
             }
             );
@@ -98,6 +99,8 @@ namespace AlexandriaMemorialLibrary
             {
                 list.Display();
             }
+            //BookView look = new BookView(Library[0]);
+            //look.Display();
 
         }
 
@@ -110,6 +113,7 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine("1: Title");
             Console.WriteLine("2: Author");
             Console.WriteLine("3: ISBN");
+            Console.WriteLine("4: Genre");
 
             int selection = 0;
 
@@ -117,7 +121,7 @@ namespace AlexandriaMemorialLibrary
             {
                 selection = UserInput();
 
-                if (selection <= 0 || selection > 3)
+                if (selection <= 0 || selection > 4)
                 {
                     Console.WriteLine("Please select a valid option.");
                     selection = 0;
@@ -133,6 +137,9 @@ namespace AlexandriaMemorialLibrary
                     break;
                 case 3:
                     Console.WriteLine("Please enter an ISBN to search for: ");
+                    break;
+                case 4:
+                    Console.WriteLine("Please enter a Genre to search for: ");
                     break;
             }
             string compare = Console.ReadLine().ToLower().Trim();
@@ -192,6 +199,22 @@ namespace AlexandriaMemorialLibrary
                         if (isbn == check)
                         {
                             searchResults.Add(book);
+                        }
+                    }
+                    break;
+                case 4:
+                    foreach (Book book in library)
+                    {
+                        foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+                        {
+                            string check = genre.ToString().ToLower();
+                            if (book.Genre.Contains(genre))
+                            {
+                                if (check == compare)
+                                {
+                                    searchResults.Add(book);
+                                }
+                            }
                         }
                     }
                     break;
