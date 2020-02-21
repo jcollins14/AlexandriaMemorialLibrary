@@ -4,9 +4,10 @@ namespace AlexandriaMemorialLibrary
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine(ConsoleColor.Red);
+            LibraryController alexandria = new LibraryController;
+            alexandria.Run();
         }
     }
 }

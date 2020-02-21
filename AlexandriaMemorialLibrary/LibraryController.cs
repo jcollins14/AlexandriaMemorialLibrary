@@ -29,6 +29,20 @@ namespace AlexandriaMemorialLibrary
 
     class LibraryController
     {
+        public LibraryController()
+        {
+
+        }
+
+        public void Run()
+        {
+            Console.WriteLine("Hello World");
+        }
+
+        public void Search()
+        {
+            Console.WriteLine("To Be Implemented");
+        }
 
     }
 }
