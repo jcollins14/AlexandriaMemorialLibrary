@@ -36,6 +36,7 @@ namespace AlexandriaMemorialLibrary
                     }
 
                 }
+                i++;
                 Console.WriteLine(listing);
             }
         }
