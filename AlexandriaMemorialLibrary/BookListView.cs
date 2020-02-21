@@ -22,20 +22,21 @@ namespace AlexandriaMemorialLibrary
                 string listing = i + ": " + currentBook.Title;
                 if (currentBook.Status.Equals(Status.CheckedOut))
                 {
-                    if (i <10)
+                    if (i < 10)
                     {
-                        listing.Insert(2, "<CHECKED OUT>");
+                        listing = listing.Insert(2, " <CHECKED OUT>");
                     }
                     else if (i < 100)
                     {
-                        listing.Insert(3, "<CHECKED OUT>");
+                        listing.Insert(3, " <CHECKED OUT>");
                     }
                     else if (i < 1000)
                     {
-                        listing.Insert(4, "<CHECKED OUT>");
+                        listing.Insert(4, " <CHECKED OUT>");
                     }
 
                 }
+                i++;
                 Console.WriteLine(listing);
             }
         }
