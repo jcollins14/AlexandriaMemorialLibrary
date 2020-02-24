@@ -19,6 +19,7 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine("Author: " + ThisBook.Author);
             Console.WriteLine("Status: " + ThisBook.Status);
 
+            //display multiple genres in the same line
             Console.Write("Genre(s): ");
             foreach (Genre genre in ThisBook.Genre)
             {
@@ -28,6 +29,7 @@ namespace AlexandriaMemorialLibrary
 
             Console.WriteLine("ISBN: " + ThisBook.ISBN);
 
+            //if book is checked out, display expected due date
             if (ThisBook.Status.Equals(Status.CheckedOut))
             {
                 Console.WriteLine("Due Date: " + ThisBook.DueDate);
