@@ -41,7 +41,8 @@ namespace AlexandriaMemorialLibrary
         {
             if (!File.Exists("library.txt"))
             {
-                File.Create("library.txt");
+                var savefile = File.Create("library.txt");
+                savefile.Close();
             }
             StreamReader read = new StreamReader("library.txt");
             
@@ -110,16 +111,18 @@ namespace AlexandriaMemorialLibrary
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
-              Library.Add(new Book()
-            {
-                Title = "Journey to the Center of the Earth",
-                Author = "Jules Verne",
-                ISBN = 9780553213973,
-                Status = Status.OnShelf,
-                Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
-                DueDate = new DateTime(1800, 1, 1)
-            });
+                Library.Add(new Book()
+                {
+                    Title = "Journey to the Center of the Earth",
+                    Author = "Jules Verne",
+                    ISBN = 9780553213973,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
             }
+            read.Close();
         }
 
         public void Run()
@@ -335,6 +338,7 @@ namespace AlexandriaMemorialLibrary
                 Book add = new Book(title, author, isbn, status, genre, dueDate);
                 Library.Add(add);
             }
+            read.Close();
         }
         public void Save()
         {
