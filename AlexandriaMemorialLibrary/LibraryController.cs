@@ -39,6 +39,10 @@ namespace AlexandriaMemorialLibrary
 
         public LibraryController()
         {
+            if (!File.Exists("library.txt"))
+            {
+                File.Create("library.txt");
+            }
             StreamReader read = new StreamReader("library.txt");
             
             Library = new List<Book>();
