@@ -125,6 +125,67 @@ namespace AlexandriaMemorialLibrary
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
+                Library.Add(new Book()
+                {
+                    Title = "Spartan Gold",
+                    Author = "Clive Cussler",
+                    ISBN = 9780425236291,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "The Line Between",
+                    Author = "Tosca Lee",
+                    ISBN = 9781476798622,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.SciFi, Genre.Thriller },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Excelsior!: The Amazing Life of Stan Lee",
+                    Author = "Stan Lee",
+                    ISBN = 9780684873053,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Biography},
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Murder on the Orient Express",
+                    Author = "Agatha Christie",
+                    ISBN = 9781579126230,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Mystery},
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "The Hobbit: Or There and Back Again",
+                    Author = "J.R.R. Tolkien",
+                    ISBN = 9781594130052,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Adventure, Genre.Fantasy },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Journey to the Center of the Earth",
+                    Author = "Jules Verne",
+                    ISBN = 9780553213973,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+
             }
             read.Close();
         }
@@ -388,9 +449,7 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
             }
-           // Book checkout = new Book();
-            //checkout.CheckOut();
-            //selection = UserInput();
+      
             return searchResults;
             
         }
