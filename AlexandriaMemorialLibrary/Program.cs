@@ -1,12 +1,17 @@
 ﻿using System;
+using System.IO;
 
 namespace AlexandriaMemorialLibrary
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("Hello World!");
+            LibraryController alexandria = new LibraryController();
+            alexandria.Load();
+            alexandria.Run();
+            alexandria.Save();
+            
         }
     }
 }
