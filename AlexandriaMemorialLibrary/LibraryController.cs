@@ -102,6 +102,15 @@ namespace AlexandriaMemorialLibrary
                 DueDate = new DateTime(1800, 1, 1)
             }
             );
+            Library.Add(new Book()
+            {
+                Title = "Journey to the Center of the Earth",
+                Author = "Jules Verne",
+                ISBN = 9780553213973,
+                Status = Status.OnShelf,
+                Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
+                DueDate = new DateTime(1800, 1, 1)
+            });
         }
 
         public void Run()
@@ -129,11 +138,12 @@ namespace AlexandriaMemorialLibrary
             List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
             Console.Clear();
 
-            Console.WriteLine("Which Attribute would you like to Search for?");
-            Console.WriteLine("1: Title");
-            Console.WriteLine("2: Author");
-            Console.WriteLine("3: ISBN");
-            Console.WriteLine("4: Genre");
+            Console.WriteLine("Welcome to the Alexandria Memorial Library Database \nPress any key to continue");
+            Console.ReadKey();
+            Console.WriteLine("_____________________________________________");
+            Console.WriteLine("How would you like to search for a book?");
+            Console.WriteLine("1: Title \n2: Author \n3: ISBN \n4: Genre \n5: Display All Books");
+            Console.WriteLine("_____________________________________________");
 
             int selection = 0;
 
@@ -141,15 +151,18 @@ namespace AlexandriaMemorialLibrary
             {
                 selection = UserInput();
 
-                if (selection <= 0 || selection > 4)
+                if (selection <= 0 || selection > 5)
                 {
                     Console.WriteLine("Please select a valid option.");
                     selection = 0;
                 }
             }
+            BookListView listDisplay = new BookListView(library);
             //user picks an attribute of the Book object to search for
+            Console.WriteLine("_____________________________________________");
             switch (selection)
             {
+               
                 case 1:
                     Console.WriteLine("Please enter a title to search for: ");
                     break;
@@ -160,9 +173,18 @@ namespace AlexandriaMemorialLibrary
                     Console.WriteLine("Please enter an ISBN to search for: ");
                     break;
                 case 4:
-                    Console.WriteLine("Please enter a Genre to search for: ");
+                    Console.WriteLine("Please enter an available genre from the list below: ");
+                    foreach (var item in Enum.GetNames(typeof(Genre)))
+                    {
+                        Console.WriteLine(item);
+                    }
+                    break;
+                case 5:
+                    listDisplay.Display();
                     break;
             }
+            Console.WriteLine("_____________________________________________");
+        
 
             string compare = Console.ReadLine().ToLower().Trim();
             //second switch case uses intial option to keep consistency
@@ -242,8 +264,11 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
             }
-            
+           // Book checkout = new Book();
+            //checkout.CheckOut();
+            //selection = UserInput();
             return searchResults;
+            
         }
 
         //used for exception catching and input validation. returns 9999999 on an error.
