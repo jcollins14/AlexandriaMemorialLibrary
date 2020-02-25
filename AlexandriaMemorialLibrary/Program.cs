@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace AlexandriaMemorialLibrary
 {
@@ -6,9 +7,9 @@ namespace AlexandriaMemorialLibrary
     {
         static void Main()
         {
-            
             LibraryController alexandria = new LibraryController();
-            alexandria.Run();
+            alexandria.Load();
+            
         }
     }
 }

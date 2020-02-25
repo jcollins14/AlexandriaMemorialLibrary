@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 using static AlexandriaMemorialLibrary.Book;
 
 namespace AlexandriaMemorialLibrary
@@ -41,67 +42,67 @@ namespace AlexandriaMemorialLibrary
             
             
             Library = new List<Book>();
-          
-            Library.Add(new Book()
-            {
-                Title = "Dune",
-                Author = "Frank Herbert",
-                ISBN = 9780593099322,
-                Status = Status.OnShelf,
-                Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy },
-                DueDate = new DateTime(1800,1,1)
-            }
-            );
-            Library.Add(new Book()
-            {
-                Title = "Radicalized",
-                Author = "Cory Doctorow",
-                ISBN = 9781250228598,
-                Status = Status.OnShelf,
-                Genre = new List<Genre>() { Genre.SciFi, },
-                DueDate = new DateTime(1800, 1, 1)
-            }
-            );
-            Library.Add(new Book()
-            {
-                Title = "Every Tool's a Hammer",
-                Author = "Adam Savage",
-                ISBN = 9781471185113,
-                Status = Status.OnShelf,
-                Genre = new List<Genre>() { Genre.Biography },
-                DueDate = new DateTime(1800, 1, 1)
-            }
-            );
-            Library.Add(new Book()
-            {
-                Title = "Mud, Sweat, and Tears",
-                Author = "Bear Grylls",
-                ISBN = 9780062124135,
-                Status = Status.OnShelf,
-                Genre = new List<Genre>() { Genre.Biography },
-                DueDate = new DateTime(1800, 1, 1)
-            }
-            );
-            Library.Add(new Book()
-            {
-                Title = "World War Z",
-                Author = "Max Brooks",
-                ISBN = 9780307346612,
-                Status = Status.OnShelf,
-                Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Thriller },
-                DueDate = new DateTime(1800, 1, 1)
-            }
-            );
-            Library.Add(new Book()
-            {
-                Title = "Watchmen",
-                Author = "Alan Moore",
-                ISBN = 9781779501129,
-                Status = Status.OnShelf,
-                Genre = new List<Genre>() { Genre.GraphicNovel, Genre.Mystery, Genre.SciFi },
-                DueDate = new DateTime(1800, 1, 1)
-            }
-            );
+
+            //Library.Add(new Book()
+            //{
+            //    Title = "Dune",
+            //    Author = "Frank Herbert",
+            //    ISBN = 9780593099322,
+            //    Status = Status.OnShelf,
+            //    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy },
+            //    DueDate = new DateTime(1800, 1, 1)
+            //}
+            //);
+            //Library.Add(new Book()
+            //{
+            //    Title = "Radicalized",
+            //    Author = "Cory Doctorow",
+            //    ISBN = 9781250228598,
+            //    Status = Status.OnShelf,
+            //    Genre = new List<Genre>() { Genre.SciFi, },
+            //    DueDate = new DateTime(1800, 1, 1)
+            //}
+            //);
+            //Library.Add(new Book()
+            //{
+            //    Title = "Every Tool's a Hammer",
+            //    Author = "Adam Savage",
+            //    ISBN = 9781471185113,
+            //    Status = Status.OnShelf,
+            //    Genre = new List<Genre>() { Genre.Biography },
+            //    DueDate = new DateTime(1800, 1, 1)
+            //}
+            //);
+            //Library.Add(new Book()
+            //{
+            //    Title = "Mud, Sweat, and Tears",
+            //    Author = "Bear Grylls",
+            //    ISBN = 9780062124135,
+            //    Status = Status.OnShelf,
+            //    Genre = new List<Genre>() { Genre.Biography },
+            //    DueDate = new DateTime(1800, 1, 1)
+            //}
+            //);
+            //Library.Add(new Book()
+            //{
+            //    Title = "World War Z",
+            //    Author = "Max Brooks",
+            //    ISBN = 9780307346612,
+            //    Status = Status.OnShelf,
+            //    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Thriller },
+            //    DueDate = new DateTime(1800, 1, 1)
+            //}
+            //);
+            //Library.Add(new Book()
+            //{
+            //    Title = "Watchmen",
+            //    Author = "Alan Moore",
+            //    ISBN = 9781779501129,
+            //    Status = Status.OnShelf,
+            //    Genre = new List<Genre>() { Genre.GraphicNovel, Genre.Mystery, Genre.SciFi },
+            //    DueDate = new DateTime(1800, 1, 1)
+            //}
+            //);
         }
 
         public void Run()
@@ -263,6 +264,80 @@ namespace AlexandriaMemorialLibrary
             }
 
             return output;
+        }
+
+        public void Load()
+        {
+            string line;
+            string loadpath = @"library.txt";
+            StreamReader read = new StreamReader(loadpath);
+            while ((line = read.ReadLine()) != null)
+            {
+                string[] construct = line.Split('@');
+                string title = construct[0];
+                string author = construct[1];
+                ulong isbn = ulong.Parse(construct[2]);
+                string build = construct[3];
+                Status status = Status.Unavailable;
+                foreach (Status measure in Enum.GetValues(typeof(Status)))
+                {
+                    if (measure.ToString().Trim() == build)
+                    {
+                        status = measure;
+                    }
+                }
+                string[] genres = construct[4].Split(' ');
+                List<Genre> genre = new List<Genre>();
+                foreach (string check in genres)
+                {
+                    foreach (Genre compare in Enum.GetValues(typeof(Genre)))
+                    {
+                        if (compare.ToString().Trim() == check)
+                        {
+                            genre.Add(compare);
+                        }
+                    }
+                }
+                DateTime dueDate = DateTime.Parse(construct[5]);
+
+                Book add = new Book(title, author, isbn, status, genre, dueDate);
+                Library.Add(add);
+
+            }
+
+            BookListView view = new BookListView(Library);
+            view.Display();
+
+        }
+        public void Save()
+        {
+            string savepath = "library.txt";
+            StreamWriter write = new StreamWriter(savepath);
+            foreach (Book book in Library)
+            {
+                write.Write(book.Title);
+                write.Write("@");
+                write.Write(book.Author);
+                write.Write("@");
+                write.Write(book.ISBN);
+                write.Write("@");
+                write.Write(book.Status);
+                write.Write("@");
+                foreach (Genre category in book.Genre)
+                {
+                    write.Write(category);
+                    write.Write(" ");
+                }
+                //write.Write("@");
+                write.Write(book.DueDate.ToString());
+                write.WriteLine();
+            }
+            write.Close();
+        }
+
+        public void Burn()
+        {
+            //delete all books in library and clear out library db text file
         }
     }
 }
