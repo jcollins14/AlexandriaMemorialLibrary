@@ -34,19 +34,23 @@ namespace AlexandriaMemorialLibrary
     class LibraryController
     {
         private List<Book> Library { get; set; }
+        private bool Loop { get; set; }
         
 
 
         public LibraryController()
         {
+            
+            
+            Library = new List<Book>();
+            Loop = true;
+
             if (!File.Exists("library.txt"))
             {
                 var savefile = File.Create("library.txt");
                 savefile.Close();
             }
             StreamReader read = new StreamReader("library.txt");
-            
-            Library = new List<Book>();
 
             //loads default library if unable to read file
             if (read.ReadLine() == null)
@@ -127,8 +131,125 @@ namespace AlexandriaMemorialLibrary
 
         public void Run()
         {
-            BookListView listview = new BookListView(Library);
-            listview.Display();
+            Console.WriteLine("Welcome to the Alexandria Memorial Library Database \nPress any key to continue");
+            Console.ReadKey();
+            Console.Clear();
+
+            while (Loop)
+            {
+                Console.WriteLine("_____________________________________________");
+                Console.WriteLine("What would you like to do?");
+                Console.WriteLine("1: Search for a book\n2: Donate a book\n3: Burn the Library\n4: Exit Application");
+                Console.WriteLine("_____________________________________________");
+
+                int selection = UserInput();
+
+                while (selection > 4 || selection == 9999999)
+                {
+                    Console.WriteLine("I'm sorry, please select an option from the menu.");
+                    selection = UserInput();
+                }
+
+                switch (selection)
+                {
+                    case 1:
+                        List<Book> searchResults = Search(Library);
+                        BookListView list = new BookListView(searchResults);
+                        Console.Clear();
+                        Console.WriteLine("_____________________________________________");
+                        Console.WriteLine("Here are the books we found for your search.");
+                        Console.WriteLine("_____________________________________________");
+                        list.Display();
+                        Console.WriteLine("_____________________________________________");
+                        Console.WriteLine();
+                        Console.WriteLine("Which book would you like to select?");
+
+                        selection = 0;
+                        selection = UserInput();
+                        while (selection < 1 || selection > searchResults.Count)
+                        {
+                            Console.WriteLine("I'm sorry, please select an option from the menu.");
+                            selection = UserInput();
+                        }
+                        selection--;
+                        Book interact = searchResults[selection];
+                        BookView bookAction = new BookView(interact);
+                        Console.Clear();
+
+                        Console.WriteLine("_____________________________________________");
+                        bookAction.Display();
+                        Console.WriteLine("_____________________________________________");
+                        Console.WriteLine();
+                        Console.WriteLine("_____________________________________________");
+                        Console.WriteLine("1: Checkout this book\n2: Return this book");
+                        Console.WriteLine("_____________________________________________");
+
+                        selection = UserInput();
+                        while (selection < 1 || selection > 2)
+                        {
+                            Console.WriteLine("I'm sorry, please select an option from the menu.");
+                            selection = UserInput();
+                        }
+
+                        if (selection == 1)
+                        {
+                            if (interact.Status == Status.CheckedOut)
+                            {
+                                Console.WriteLine("This book is already checked out. Please come back after " + interact.DueDate.ToString() + ".");
+                            }
+                            else
+                            {
+                                interact.CheckOut();
+                            }
+                            
+                        }
+                        if (selection == 2)
+                        {
+                            if (interact.Status == Status.OnShelf)
+                            {
+                                Console.WriteLine("This book has not been checked out, therefore it cannot be returned.");
+                            }
+                            else
+                            {
+                                interact.Return();
+                            }
+                            
+                        }
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        Burn();
+                        break;
+                    case 4:
+                        Exit();
+                        break;
+                }
+                Console.WriteLine("Would you like to perform another action? (y/n)");
+                string again = Console.ReadLine().Trim().ToLower();
+                while (again != "y" && again != "n")
+                {
+                    Console.WriteLine("I didn't understand that. Please try again.");
+                    again = Console.ReadLine().Trim().ToLower();
+                }
+                if (again == "n")
+                {
+                    Loop = false;
+
+                }
+                Console.Clear();
+
+            }
+            Exit();
+
+        }
+
+        public void Exit()
+        {
+            Console.Clear();
+            Console.WriteLine("Thank you for using the Alexandria Memorial Library. Goodbye.");
+            Save();
+            Environment.Exit(1);
         }
 
         public List<Book> Search(List<Book> library)
@@ -139,8 +260,7 @@ namespace AlexandriaMemorialLibrary
             List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
             Console.Clear();
 
-            Console.WriteLine("Welcome to the Alexandria Memorial Library Database \nPress any key to continue");
-            Console.ReadKey();
+            
             Console.WriteLine("_____________________________________________");
             Console.WriteLine("How would you like to search for a book?");
             Console.WriteLine("1: Title \n2: Author \n3: ISBN \n4: Genre \n5: Display All Books");
@@ -158,7 +278,7 @@ namespace AlexandriaMemorialLibrary
                     selection = 0;
                 }
             }
-            BookListView listDisplay = new BookListView(library);
+      
             //user picks an attribute of the Book object to search for
             Console.WriteLine("_____________________________________________");
             switch (selection)
@@ -181,8 +301,11 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
                 case 5:
-                    listDisplay.Display();
-                    break;
+                    foreach (Book book in library)
+                    {
+                        searchResults.Add(book);
+                    }
+                    return searchResults;
             }
             Console.WriteLine("_____________________________________________");
         
