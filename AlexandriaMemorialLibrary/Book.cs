@@ -14,6 +14,19 @@ namespace AlexandriaMemorialLibrary
         public Status Status { get; set; }
         public DateTime DueDate { get; set; }
 
+        public Book()
+        {
+        }
+        public Book(string title, string author, ulong isbn, Status status, List<Genre> genre)
+        {
+            this.Title = title;
+            this.Author = author;
+            this.ISBN = isbn;
+            this.Genre = genre;
+            this.Status = status;
+            this.DueDate = new DateTime(1800, 1, 1);
+            
+        }
         public Book(string title, string author, ulong isbn, Status status, List<Genre> genre, DateTime dueDate)
         {
             this.Title = title;
@@ -22,12 +35,8 @@ namespace AlexandriaMemorialLibrary
             this.Genre = genre;
             this.Status = status;
             this.DueDate = dueDate;
-
         }
-        public Book()
-        {
-        }
-
+        
         //set status to checked out and set due date to two weeks from today
         public void CheckOut()
         {
