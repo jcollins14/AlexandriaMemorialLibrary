@@ -9,6 +9,8 @@ namespace AlexandriaMemorialLibrary
         {
             LibraryController alexandria = new LibraryController();
             alexandria.Load();
+            alexandria.Run();
+            alexandria.Save();
             
         }
     }

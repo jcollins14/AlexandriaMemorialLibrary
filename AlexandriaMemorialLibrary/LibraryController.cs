@@ -39,87 +39,81 @@ namespace AlexandriaMemorialLibrary
 
         public LibraryController()
         {
-            
+            StreamReader read = new StreamReader("library.txt");
             
             Library = new List<Book>();
 
-            //Library.Add(new Book()
-            //{
-            //    Title = "Dune",
-            //    Author = "Frank Herbert",
-            //    ISBN = 9780593099322,
-            //    Status = Status.OnShelf,
-            //    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy },
-            //    DueDate = new DateTime(1800, 1, 1)
-            //}
-            //);
-            //Library.Add(new Book()
-            //{
-            //    Title = "Radicalized",
-            //    Author = "Cory Doctorow",
-            //    ISBN = 9781250228598,
-            //    Status = Status.OnShelf,
-            //    Genre = new List<Genre>() { Genre.SciFi, },
-            //    DueDate = new DateTime(1800, 1, 1)
-            //}
-            //);
-            //Library.Add(new Book()
-            //{
-            //    Title = "Every Tool's a Hammer",
-            //    Author = "Adam Savage",
-            //    ISBN = 9781471185113,
-            //    Status = Status.OnShelf,
-            //    Genre = new List<Genre>() { Genre.Biography },
-            //    DueDate = new DateTime(1800, 1, 1)
-            //}
-            //);
-            //Library.Add(new Book()
-            //{
-            //    Title = "Mud, Sweat, and Tears",
-            //    Author = "Bear Grylls",
-            //    ISBN = 9780062124135,
-            //    Status = Status.OnShelf,
-            //    Genre = new List<Genre>() { Genre.Biography },
-            //    DueDate = new DateTime(1800, 1, 1)
-            //}
-            //);
-            //Library.Add(new Book()
-            //{
-            //    Title = "World War Z",
-            //    Author = "Max Brooks",
-            //    ISBN = 9780307346612,
-            //    Status = Status.OnShelf,
-            //    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Thriller },
-            //    DueDate = new DateTime(1800, 1, 1)
-            //}
-            //);
-            //Library.Add(new Book()
-            //{
-            //    Title = "Watchmen",
-            //    Author = "Alan Moore",
-            //    ISBN = 9781779501129,
-            //    Status = Status.OnShelf,
-            //    Genre = new List<Genre>() { Genre.GraphicNovel, Genre.Mystery, Genre.SciFi },
-            //    DueDate = new DateTime(1800, 1, 1)
-            //}
-            //);
+            //loads default library if unable to read file
+            if (read.ReadLine() == null)
+            {
+                Library.Add(new Book()
+                {
+                    Title = "Dune",
+                    Author = "Frank Herbert",
+                    ISBN = 9780593099322,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Radicalized",
+                    Author = "Cory Doctorow",
+                    ISBN = 9781250228598,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.SciFi, },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Every Tool's a Hammer",
+                    Author = "Adam Savage",
+                    ISBN = 9781471185113,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.Biography },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Mud, Sweat, and Tears",
+                    Author = "Bear Grylls",
+                    ISBN = 9780062124135,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.Biography },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "World War Z",
+                    Author = "Max Brooks",
+                    ISBN = 9780307346612,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Thriller },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Watchmen",
+                    Author = "Alan Moore",
+                    ISBN = 9781779501129,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.GraphicNovel, Genre.Mystery, Genre.SciFi },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+            }
+
         }
 
         public void Run()
         {
-            List<Book> search = Search(Library);
-            BookListView list = new BookListView(search);
-            if (search.Count == 0)
-            {
-                Console.WriteLine("I'm sorry, there were no results found.");
-            }
-            else
-            {
-                list.Display();
-            }
-            //BookView look = new BookView(Library[0]);
-            //look.Display();
-
+            BookListView listview = new BookListView(Library);
+            listview.Display();
         }
 
         public List<Book> Search(List<Book> library)
@@ -269,14 +263,19 @@ namespace AlexandriaMemorialLibrary
         public void Load()
         {
             string line;
-            string loadpath = @"library.txt";
-            StreamReader read = new StreamReader(loadpath);
+            StreamReader read = new StreamReader("library.txt");
             while ((line = read.ReadLine()) != null)
             {
+                //splits attribute fields into separate strings
                 string[] construct = line.Split('@');
+
                 string title = construct[0];
+
                 string author = construct[1];
+
                 ulong isbn = ulong.Parse(construct[2]);
+
+                //compares status string to Status enum to get proper Enum set
                 string build = construct[3];
                 Status status = Status.Unavailable;
                 foreach (Status measure in Enum.GetValues(typeof(Status)))
@@ -286,6 +285,8 @@ namespace AlexandriaMemorialLibrary
                         status = measure;
                     }
                 }
+
+                //similar process for Genres, except adds to list for multiple Genres
                 string[] genres = construct[4].Split(' ');
                 List<Genre> genre = new List<Genre>();
                 foreach (string check in genres)
@@ -298,21 +299,20 @@ namespace AlexandriaMemorialLibrary
                         }
                     }
                 }
+                
+                //parses Date string into proper DateTime type
                 DateTime dueDate = DateTime.Parse(construct[5]);
 
+                //Constructs new Book object and adds it to the library
                 Book add = new Book(title, author, isbn, status, genre, dueDate);
                 Library.Add(add);
-
             }
-
-            BookListView view = new BookListView(Library);
-            view.Display();
-
         }
         public void Save()
         {
-            string savepath = "library.txt";
-            StreamWriter write = new StreamWriter(savepath);
+            StreamWriter write = new StreamWriter("library.txt");
+
+            //writes out each attribute field using '@' as a delimiter for separation later upon load.
             foreach (Book book in Library)
             {
                 write.Write(book.Title);
@@ -328,16 +328,27 @@ namespace AlexandriaMemorialLibrary
                     write.Write(category);
                     write.Write(" ");
                 }
-                //write.Write("@");
+                write.Write("@");
                 write.Write(book.DueDate.ToString());
+
+                //separates each object on its own line
                 write.WriteLine();
             }
+            //closes and saves file
             write.Close();
         }
 
         public void Burn()
         {
             //delete all books in library and clear out library db text file
+            //to be implemented
+        }
+
+        public void Donate()
+        {
+            //adds a book to library. asks user for input for each field
+            //checks against current library for matches so duplication doesnt occur
+            //to be implemented
         }
     }
 }
