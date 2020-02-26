@@ -309,6 +309,7 @@ namespace AlexandriaMemorialLibrary
                             }
                             else
                             {
+                                Console.WriteLine("Thank you for returning the book.");
                                 interact.Return();
                             }
                             
@@ -383,15 +384,23 @@ namespace AlexandriaMemorialLibrary
             {
                
                 case 1:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter a title to search for: ");
                     break;
                 case 2:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter an author to search for: ");
                     break;
                 case 3:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter an ISBN to search for: ");
                     break;
                 case 4:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter an available genre from the list below: ");
                     foreach (var item in Enum.GetNames(typeof(Genre)))
                     {
@@ -618,8 +627,9 @@ namespace AlexandriaMemorialLibrary
                 Console.ReadKey();
                 Console.Clear();
                 Console.WriteLine("You have burned down the Alexandria Memorial Library");
-                string a = "\uE11D";
-                Console.WriteLine(a);
+                //Console.OutputEncoding = Encoding.UTF8;
+                //string a = "";
+                //Console.WriteLine(a);
 
 
 
