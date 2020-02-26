@@ -44,7 +44,17 @@ namespace AlexandriaMemorialLibrary
             Library = new List<Book>();
             Loop = true;
 
-            if (!File.Exists("library.txt"))
+            //If the library was burned previously, generates a book to display this and stores it in the library
+            if (File.Exists("Charred Remains.txt"))
+            {
+                var savefile = File.Create("library.txt");
+                savefile.Close();
+                StreamWriter write = new StreamWriter("library.txt");
+                write.WriteLine("Charred Remains@Julius Caesar@0@Unavailable@SelfHelp @1/1/1800 12:00:00 AM");
+                write.Close();
+            }
+            //if the library hasn't been created yet, creates a library
+            else if (!File.Exists("library.txt"))
             {
                 var savefile = File.Create("library.txt");
                 savefile.Close();
@@ -121,6 +131,26 @@ namespace AlexandriaMemorialLibrary
                     ISBN = 9780553213973,
                     Status = Status.OnShelf,
                     Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Permanent Record",
+                    Author = "Edward Snowden",
+                    ISBN = 9781250237231,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Biography },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Shoe Dog",
+                    Author = "Phil Knight",
+                    ISBN = 9781501135927,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Biography },
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
@@ -509,6 +539,9 @@ namespace AlexandriaMemorialLibrary
                 File.Delete("library.txt");
 
                 this.Library = new List<Book>();
+
+                var savefile = File.Create("Charred Remains.txt");
+                savefile.Close();
 
                 Exit();
             }
