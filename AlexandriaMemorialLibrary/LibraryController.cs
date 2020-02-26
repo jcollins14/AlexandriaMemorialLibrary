@@ -21,13 +21,10 @@ namespace AlexandriaMemorialLibrary
         SciFi,
         Mystery,
         Thriller,
-        Romance,
         Manga,
-        SelfHelp,
         Travel,
         Adventure,
         GraphicNovel,
-        Philosophy,
         Biography
     }
 
@@ -177,11 +174,51 @@ namespace AlexandriaMemorialLibrary
                 );
                 Library.Add(new Book()
                 {
-                    Title = "Journey to the Center of the Earth",
-                    Author = "Jules Verne",
-                    ISBN = 9780553213973,
+                    Title = "The Secrets of Ireland",
+                    Author = "Kevin Eyres",
+                    ISBN = 9780760782811,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "Best of Bar Harbor",
+                    Author = "Greg Hartford",
+                    ISBN = 9780892727940,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "Turn Right At Machu Picchu",
+                    Author = "Mark Adams",
+                    ISBN = 9780452297982,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "The Martian",
+                    Author = "Andy Weir",
+                    ISBN = 9780553418026,
                     Status = Status.OnShelf,
                     Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "The Institute",
+                    Author = "Stephen King",
+                    ISBN = 9781982110567,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Thriller },
                     DueDate = new DateTime(1800, 1, 1)
                 }
                  );
@@ -556,6 +593,39 @@ namespace AlexandriaMemorialLibrary
         {
             //delete all books in library and clear out library db text file
             //to be implemented
+            Console.Clear();
+            Console.WriteLine("_____________________________________________");
+            Console.WriteLine("Burning down the library again will set civilization back by centuries.");
+            Console.WriteLine("Are you sure you want to continue? y/n");
+            Console.WriteLine("_____________________________________________");
+            string again = Console.ReadLine().Trim().ToLower();
+            while (again != "y" && again != "n")
+            {
+                Console.WriteLine("I didn't understand that. Please try again.");
+                again = Console.ReadLine().Trim().ToLower();
+            }
+            if (again == "n")
+            {
+                Console.Clear();
+                Console.WriteLine("Thank you for choosing not to set the library on fire again.");
+                
+
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Press any key to start the fire.");
+                Console.ReadKey();
+                Console.Clear();
+                Console.WriteLine("You have burned down the Alexandria Memorial Library");
+                string a = "\uE11D";
+                Console.WriteLine(a);
+
+
+
+                Environment.Exit(1);
+             
+            }
         }
 
         public void Donate()
