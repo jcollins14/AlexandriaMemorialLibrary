@@ -494,8 +494,26 @@ namespace AlexandriaMemorialLibrary
 
         public void Burn()
         {
-            //delete all books in library and clear out library db text file
-            //to be implemented
+            Console.Clear();
+            Console.WriteLine("_________________________________________________________");
+            Console.WriteLine("WARNING: This action cannot be undone.");
+            Console.WriteLine("This will set back human civilization hundreds of years.");
+            Console.WriteLine("Are you sure you'd like to continue?");
+            Console.WriteLine("If yes, please type \'HAIL CAESAR\' to confirm.");
+            Console.WriteLine("_________________________________________________________");
+
+            string confirm = Console.ReadLine().ToLower().Trim();
+
+            if (confirm == "hail caesar")
+            {
+                File.Delete("library.txt");
+
+                this.Library = new List<Book>();
+
+                Exit();
+            }
+
+
         }
 
         public void Donate()
