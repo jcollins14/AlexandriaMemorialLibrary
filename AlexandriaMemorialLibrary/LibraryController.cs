@@ -258,7 +258,9 @@ namespace AlexandriaMemorialLibrary
 
         public void Run()
         {
+            Console.WriteLine("_________________________________________________________");
             Console.WriteLine("Welcome to the Alexandria Memorial Library Database \nPress any key to continue");
+            Console.WriteLine("_________________________________________________________");
             Console.ReadKey();
             Console.Clear();
 
@@ -464,10 +466,12 @@ namespace AlexandriaMemorialLibrary
                             }
                         }
                         title = title.ToLower();
+                     
                         if (title.Contains(compare))
                         {
                             searchResults.Add(book);
                         }
+                        
                     }
                     break;
                 case 2:
@@ -727,6 +731,7 @@ namespace AlexandriaMemorialLibrary
             {
                 Book add = new Book(title, author, isbn, Status.OnShelf, genres);
                 Library.Add(add);
+                Console.WriteLine("Your book has been accepted into the library. Thank you.");
             }
             else
             {
