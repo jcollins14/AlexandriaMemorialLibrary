@@ -21,13 +21,10 @@ namespace AlexandriaMemorialLibrary
         SciFi,
         Mystery,
         Thriller,
-        Romance,
         Manga,
-        SelfHelp,
         Travel,
         Adventure,
         GraphicNovel,
-        Philosophy,
         Biography
     }
 
@@ -125,6 +122,107 @@ namespace AlexandriaMemorialLibrary
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
+                Library.Add(new Book()
+                {
+                    Title = "Spartan Gold",
+                    Author = "Clive Cussler",
+                    ISBN = 9780425236291,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "The Line Between",
+                    Author = "Tosca Lee",
+                    ISBN = 9781476798622,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.SciFi, Genre.Thriller },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Excelsior!: The Amazing Life of Stan Lee",
+                    Author = "Stan Lee",
+                    ISBN = 9780684873053,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Biography},
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Murder on the Orient Express",
+                    Author = "Agatha Christie",
+                    ISBN = 9781579126230,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Mystery},
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "The Hobbit: Or There and Back Again",
+                    Author = "J.R.R. Tolkien",
+                    ISBN = 9781594130052,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Adventure, Genre.Fantasy },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "The Secrets of Ireland",
+                    Author = "Kevin Eyres",
+                    ISBN = 9780760782811,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "Best of Bar Harbor",
+                    Author = "Greg Hartford",
+                    ISBN = 9780892727940,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "Turn Right At Machu Picchu",
+                    Author = "Mark Adams",
+                    ISBN = 9780452297982,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "The Martian",
+                    Author = "Andy Weir",
+                    ISBN = 9780553418026,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
+                    Title = "The Institute",
+                    Author = "Stephen King",
+                    ISBN = 9781982110567,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Thriller },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+
             }
             read.Close();
         }
@@ -211,6 +309,7 @@ namespace AlexandriaMemorialLibrary
                             }
                             else
                             {
+                                Console.WriteLine("Thank you for returning the book.");
                                 interact.Return();
                             }
                             
@@ -285,15 +384,23 @@ namespace AlexandriaMemorialLibrary
             {
                
                 case 1:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter a title to search for: ");
                     break;
                 case 2:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter an author to search for: ");
                     break;
                 case 3:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter an ISBN to search for: ");
                     break;
                 case 4:
+                    Console.Clear();
+                    Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter an available genre from the list below: ");
                     foreach (var item in Enum.GetNames(typeof(Genre)))
                     {
@@ -388,9 +495,7 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
             }
-           // Book checkout = new Book();
-            //checkout.CheckOut();
-            //selection = UserInput();
+      
             return searchResults;
             
         }
@@ -497,6 +602,40 @@ namespace AlexandriaMemorialLibrary
         {
             //delete all books in library and clear out library db text file
             //to be implemented
+            Console.Clear();
+            Console.WriteLine("_____________________________________________");
+            Console.WriteLine("Burning down the library again will set civilization back by centuries.");
+            Console.WriteLine("Are you sure you want to continue? y/n");
+            Console.WriteLine("_____________________________________________");
+            string again = Console.ReadLine().Trim().ToLower();
+            while (again != "y" && again != "n")
+            {
+                Console.WriteLine("I didn't understand that. Please try again.");
+                again = Console.ReadLine().Trim().ToLower();
+            }
+            if (again == "n")
+            {
+                Console.Clear();
+                Console.WriteLine("Thank you for choosing not to set the library on fire again.");
+                
+
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Press any key to start the fire.");
+                Console.ReadKey();
+                Console.Clear();
+                Console.WriteLine("You have burned down the Alexandria Memorial Library");
+                //Console.OutputEncoding = Encoding.UTF8;
+                //string a = "";
+                //Console.WriteLine(a);
+
+
+
+                Environment.Exit(1);
+             
+            }
         }
 
         public void Donate()
