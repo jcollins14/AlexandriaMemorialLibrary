@@ -681,9 +681,25 @@ namespace AlexandriaMemorialLibrary
             string title = Console.ReadLine();
             Console.WriteLine("Please enter the author of the book you would like to donate.");
             string author = Console.ReadLine();
-            Console.WriteLine("Please enter the ISBN of the book you would like to donate.");
-            string i = Console.ReadLine();
-            ulong isbn = ulong.Parse(i);
+            Console.WriteLine("Please enter the ISBN (13-digits) of the book you would like to donate.");
+            
+            ulong isbn = 0;
+
+            //input validation for ISBN to be a 13 digit number
+            while (isbn < 1000000000000 || isbn > 9999999999999)
+            {
+                try
+                {
+                    string i = Console.ReadLine().Trim();
+                    isbn = ulong.Parse(i);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Please only input a 13-digit number.");
+                    isbn = 0;
+                }
+            }
+     
             Console.WriteLine("Please select the genre of the book you would like to donate. Separate multiple genres with a space.");
 
             foreach (var item in Enum.GetNames(typeof(Genre)))
