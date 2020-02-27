@@ -47,7 +47,7 @@ namespace AlexandriaMemorialLibrary
                 var savefile = File.Create("library.txt");
                 savefile.Close();
                 StreamWriter write = new StreamWriter("library.txt");
-                write.WriteLine("Charred Remains@Julius Caesar@0@Unavailable@SelfHelp @1/1/1800 12:00:00 AM");
+                write.WriteLine("Charred Remains@Julius Caesar@0@Unavailable@SelfHelp@1/1/1800 12:00:00 AM");
                 write.Close();
             }
             //if the library hasn't been created yet, creates a library
