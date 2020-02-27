@@ -345,6 +345,7 @@ namespace AlexandriaMemorialLibrary
                         }
                         break;
                     case 2:
+                        Donate();
                         break;
                     case 3:
                         Burn();
@@ -662,6 +663,78 @@ namespace AlexandriaMemorialLibrary
             //adds a book to library. asks user for input for each field
             //checks against current library for matches so duplication doesnt occur
             //to be implemented
+            Console.WriteLine("Please enter the title of the book you would like to donate.");
+            string title = Console.ReadLine();
+            Console.WriteLine("Please enter the author of the book you would like to donate.");
+            string author = Console.ReadLine();
+            Console.WriteLine("Please enter the ISBN of the book you would like to donate.");
+            string i = Console.ReadLine();
+            ulong isbn = ulong.Parse(i);
+            Console.WriteLine("Please select the genre of the book you would like to donate. Separate multiple genres with a space.");
+
+            foreach (var item in Enum.GetNames(typeof(Genre)))
+            {
+                Console.WriteLine(item);
+            }
+
+
+            
+            string a = Console.ReadLine().Trim().ToLower();
+          
+
+
+            string[] genre = a.Split(' ');
+            List<Genre> genres = new List<Genre>();
+            foreach (string compare in genre)
+            {
+                foreach (Genre check in Enum.GetValues(typeof(Genre)))
+                {
+                    if (check.ToString().Trim().ToLower() == compare)
+                    {
+                        genres.Add(check);
+                    }
+                }
+
+            }
+            bool present = false;
+            string bookTitle = title.Trim().ToLower();
+
+            for (int d = 0; d < Library.Count; d++)
+            {    
+                Book book = Library[d];
+                List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
+                string original = book.Title.Trim().ToLower();
+                for (int b = 0; b < original.Length; b++)
+                {
+                    if (delimiter.Contains(original[b]))
+                    {
+                        original = original.Remove(b, 1);
+                    }
+                }
+               for (int c = 0; c < bookTitle.Length; c++)
+                {
+                    if (delimiter.Contains(bookTitle[c]))
+                    {
+                        bookTitle = bookTitle.Remove(c, 1);
+                    }
+                }
+                if (bookTitle == original)
+                {
+                    present = true;
+                }
+            }
+            if (!present)
+            {
+                Book add = new Book(title, author, isbn, Status.OnShelf, genres);
+                Library.Add(add);
+            }
+            else
+            {
+                Console.WriteLine("The library already has a copy of this book. Thank you for your generosity.");
+            }
+
+
+
         }
     }
 }
