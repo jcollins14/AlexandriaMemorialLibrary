@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AlexandriaMemorialLibrary
 {
     class BookListView
     {
         private List<Book> Library = new List<Book>();
-
         public BookListView(List<Book> library)
         {
             this.Library = library;
@@ -38,7 +36,6 @@ namespace AlexandriaMemorialLibrary
                     {
                         listing = listing.Insert(4, " <CHECKED OUT>");
                     }
-
                 }
                 i++;
                 Console.WriteLine(listing);

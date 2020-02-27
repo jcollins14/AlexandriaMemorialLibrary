@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace AlexandriaMemorialLibrary
 {
-    
     enum Status
     {
         OnShelf,
@@ -13,7 +11,6 @@ namespace AlexandriaMemorialLibrary
         Processing,
         Unavailable
     }
-
     enum Genre
     {
         Fantasy,
@@ -26,18 +23,12 @@ namespace AlexandriaMemorialLibrary
         Biography,
         SelfHelp
     }
-
     class LibraryController
     {
         private List<Book> Library { get; set; }
         private bool Loop { get; set; }
-        
-
-
         public LibraryController()
         {
-            
-            
             Library = new List<Book>();
             Loop = true;
 
@@ -335,9 +326,15 @@ namespace AlexandriaMemorialLibrary
                                 {
                                     Console.WriteLine("This book is already checked out. Please come back after " + interact.DueDate.ToString() + ".");
                                 }
+                                else if (interact.Status == Status.Unavailable)
+                                {
+                                    Console.WriteLine("I'm sorry, this book isnt available right now.");
+                                }
                                 else
                                 {
                                     interact.CheckOut();
+                                    Console.WriteLine("Thank you for checking out " + interact.Title + ". It is due " + interact.DueDate + ".");
+                                    Console.WriteLine();
                                 }
 
                             }
@@ -352,7 +349,6 @@ namespace AlexandriaMemorialLibrary
                                     Console.WriteLine("Thank you for returning the book.");
                                     interact.Return();
                                 }
-
                             }
                         }
                         else
@@ -363,7 +359,7 @@ namespace AlexandriaMemorialLibrary
                             Console.WriteLine("_____________________________________________");
                             Console.WriteLine();
                         }
-                            break;
+                        break;
                     case 2:
                         break;
                     case 3:
@@ -383,21 +379,123 @@ namespace AlexandriaMemorialLibrary
                 if (again == "n")
                 {
                     Loop = false;
-
                 }
                 Console.Clear();
-
             }
             Exit();
-
         }
+        public void Burn()
+        {
+            Console.Clear();
+            Console.WriteLine("_________________________________________________________");
+            Console.WriteLine("WARNING: This action cannot be undone.");
+            Console.WriteLine("This will set back human civilization centuries.");
+            Console.WriteLine("Are you sure you'd like to continue?");
+            Console.WriteLine("If yes, please type \'HAIL CAESAR\' to confirm.");
+            Console.WriteLine("_________________________________________________________");
 
+            string confirm = Console.ReadLine().ToLower().Trim();
+
+            if (confirm == "hail caesar")
+            {
+                File.Delete("library.txt");
+
+                this.Library = new List<Book>();
+
+                var savefile = File.Create("Charred Remains.txt");
+                savefile.Close();
+
+                Exit();
+            }
+          else
+          {
+            Console.WriteLine("Thank you for not burning down the library again.");
+          }
+        }
         public void Exit()
         {
             Console.Clear();
             Console.WriteLine("Thank you for using the Alexandria Memorial Library. Goodbye.");
             Save();
             Environment.Exit(1);
+        }
+        public void Load()
+        {
+            string line;
+            StreamReader read = new StreamReader("library.txt");
+            while ((line = read.ReadLine()) != null)
+            {
+                //splits attribute fields into separate strings
+                string[] construct = line.Split('@');
+
+                string title = construct[0];
+
+                string author = construct[1];
+
+                ulong isbn = ulong.Parse(construct[2]);
+
+                //compares status string to Status enum to get proper Enum set
+                string build = construct[3];
+                Status status = Status.Unavailable;
+                foreach (Status measure in Enum.GetValues(typeof(Status)))
+                {
+                    if (measure.ToString().Trim() == build)
+                    {
+                        status = measure;
+                    }
+                }
+
+                //similar process for Genres, except adds to list for multiple Genres
+                string[] genres = construct[4].Split(' ');
+                List<Genre> genre = new List<Genre>();
+                foreach (string check in genres)
+                {
+                    foreach (Genre compare in Enum.GetValues(typeof(Genre)))
+                    {
+                        if (compare.ToString().Trim() == check)
+                        {
+                            genre.Add(compare);
+                        }
+                    }
+                }
+
+                //parses Date string into proper DateTime type
+                DateTime dueDate = DateTime.Parse(construct[5]);
+
+                //Constructs new Book object and adds it to the library
+                Book add = new Book(title, author, isbn, status, genre, dueDate);
+                Library.Add(add);
+            }
+            read.Close();
+        }
+        public void Save()
+        {
+            StreamWriter write = new StreamWriter("library.txt");
+
+            //writes out each attribute field using '@' as a delimiter for separation later upon load.
+            foreach (Book book in Library)
+            {
+                write.Write(book.Title);
+                write.Write("@");
+                write.Write(book.Author);
+                write.Write("@");
+                write.Write(book.ISBN);
+                write.Write("@");
+                write.Write(book.Status);
+                write.Write("@");
+                foreach (Genre category in book.Genre)
+                {
+                    write.Write(category);
+                    write.Write(" ");
+                }
+                write.Write("@");
+                write.Write(book.DueDate.ToString());
+
+                //separates each object on its own line
+                write.WriteLine();
+            }
+            //closes and saves file
+            write.Close();
         }
 
         public List<Book> Search(List<Book> library)
@@ -408,7 +506,6 @@ namespace AlexandriaMemorialLibrary
             List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
             Console.Clear();
 
-            
             Console.WriteLine("_____________________________________________");
             Console.WriteLine("How would you like to search for a book?");
             Console.WriteLine("1: Title \n2: Author \n3: ISBN \n4: Genre \n5: Display All Books");
@@ -426,12 +523,11 @@ namespace AlexandriaMemorialLibrary
                     selection = 0;
                 }
             }
-      
+
             //user picks an attribute of the Book object to search for
             Console.WriteLine("_____________________________________________");
             switch (selection)
             {
-               
                 case 1:
                     Console.Clear();
                     Console.WriteLine("_____________________________________________");
@@ -468,7 +564,6 @@ namespace AlexandriaMemorialLibrary
             }
             Console.WriteLine("_____________________________________________");
             Console.WriteLine();
-        
 
             string compare = Console.ReadLine().ToLower().Trim();
             //second switch case uses intial option to keep consistency
@@ -526,12 +621,11 @@ namespace AlexandriaMemorialLibrary
                             compare = Console.ReadLine().Trim();
                         }
                     }
-                    
 
                     foreach (Book book in library)
                     {
                         ulong isbn = book.ISBN;
-                        
+
                         if (isbn == check)
                         {
                             searchResults.Add(book);
@@ -555,9 +649,7 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
             }
-      
             return searchResults;
-            
         }
 
         //used for exception catching and input validation. returns 9999999 on an error.
@@ -577,116 +669,6 @@ namespace AlexandriaMemorialLibrary
 
             return output;
         }
-
-        public void Load()
-        {
-            string line;
-            StreamReader read = new StreamReader("library.txt");
-            while ((line = read.ReadLine()) != null)
-            {
-                //splits attribute fields into separate strings
-                string[] construct = line.Split('@');
-
-                string title = construct[0];
-
-                string author = construct[1];
-
-                ulong isbn = ulong.Parse(construct[2]);
-
-                //compares status string to Status enum to get proper Enum set
-                string build = construct[3];
-                Status status = Status.Unavailable;
-                foreach (Status measure in Enum.GetValues(typeof(Status)))
-                {
-                    if (measure.ToString().Trim() == build)
-                    {
-                        status = measure;
-                    }
-                }
-
-                //similar process for Genres, except adds to list for multiple Genres
-                string[] genres = construct[4].Split(' ');
-                List<Genre> genre = new List<Genre>();
-                foreach (string check in genres)
-                {
-                    foreach (Genre compare in Enum.GetValues(typeof(Genre)))
-                    {
-                        if (compare.ToString().Trim() == check)
-                        {
-                            genre.Add(compare);
-                        }
-                    }
-                }
-                
-                //parses Date string into proper DateTime type
-                DateTime dueDate = DateTime.Parse(construct[5]);
-
-                //Constructs new Book object and adds it to the library
-                Book add = new Book(title, author, isbn, status, genre, dueDate);
-                Library.Add(add);
-            }
-            read.Close();
-        }
-        public void Save()
-        {
-            StreamWriter write = new StreamWriter("library.txt");
-
-            //writes out each attribute field using '@' as a delimiter for separation later upon load.
-            foreach (Book book in Library)
-            {
-                write.Write(book.Title);
-                write.Write("@");
-                write.Write(book.Author);
-                write.Write("@");
-                write.Write(book.ISBN);
-                write.Write("@");
-                write.Write(book.Status);
-                write.Write("@");
-                foreach (Genre category in book.Genre)
-                {
-                    write.Write(category);
-                    write.Write(" ");
-                }
-                write.Write("@");
-                write.Write(book.DueDate.ToString());
-
-                //separates each object on its own line
-                write.WriteLine();
-            }
-            //closes and saves file
-            write.Close();
-        }
-
-        public void Burn()
-        {
-            Console.Clear();
-            Console.WriteLine("_________________________________________________________");
-            Console.WriteLine("WARNING: This action cannot be undone.");
-            Console.WriteLine("This will set back human civilization centuries.");
-            Console.WriteLine("Are you sure you'd like to continue?");
-            Console.WriteLine("If yes, please type \'HAIL CAESAR\' to confirm.");
-            Console.WriteLine("_________________________________________________________");
-
-            string confirm = Console.ReadLine().ToLower().Trim();
-
-            if (confirm == "hail caesar")
-            {
-                File.Delete("library.txt");
-
-                this.Library = new List<Book>();
-
-                var savefile = File.Create("Charred Remains.txt");
-                savefile.Close();
-
-                Exit();
-            }
-          else
-          {
-            Console.WriteLine("Thank you for not burning down the library again.");
-          }
-
-        }
-
         public void Donate()
         {
             //adds a book to library. asks user for input for each field

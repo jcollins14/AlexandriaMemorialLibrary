@@ -40,17 +40,8 @@ namespace AlexandriaMemorialLibrary
         //set status to checked out and set due date to two weeks from today
         public void CheckOut()
         {
-            if (this.Status == Status.OnShelf)
-            {
                 this.Status = Status.CheckedOut;
                 this.DueDate = DateTime.Now.AddDays(14);
-                Console.WriteLine("Thank you for checking out " + this.Title + ". It is due " + this.DueDate + ".");
-                Console.WriteLine();
-            }
-            else
-            {
-                Console.WriteLine("I'm sorry. This book isnt available right now.");
-            }
         }
 
         //reset book status to OnShelf;
