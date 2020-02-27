@@ -44,6 +44,8 @@ namespace AlexandriaMemorialLibrary
             {
                 this.Status = Status.CheckedOut;
                 this.DueDate = DateTime.Now.AddDays(14);
+                Console.WriteLine("Thank you for checking out " + this.Title + ". It is due " + this.DueDate + ".");
+                Console.WriteLine();
             }
             else
             {

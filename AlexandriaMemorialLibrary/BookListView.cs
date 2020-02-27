@@ -31,11 +31,11 @@ namespace AlexandriaMemorialLibrary
                     }
                     else if (i < 100)
                     {
-                        listing.Insert(3, " <CHECKED OUT>");
+                        listing = listing.Insert(3, " <CHECKED OUT>");
                     }
                     else if (i < 1000)
                     {
-                        listing.Insert(4, " <CHECKED OUT>");
+                        listing = listing.Insert(4, " <CHECKED OUT>");
                     }
 
                 }

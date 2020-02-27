@@ -20,11 +20,11 @@ namespace AlexandriaMemorialLibrary
         SciFi,
         Mystery,
         Thriller,
-        Manga,
         Travel,
         Adventure,
         GraphicNovel,
-        Biography
+        Biography,
+        SelfHelp
     }
 
     class LibraryController
@@ -252,6 +252,16 @@ namespace AlexandriaMemorialLibrary
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
+                Library.Add(new Book()
+                {
+                    Title = "The Food Lab: Better Home Cooking Through Science",
+                    Author = "J. Kenji Lopez-Alt",
+                    ISBN = 9780393081084,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.SelfHelp },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
             }
             read.Close();
         }
@@ -281,69 +291,80 @@ namespace AlexandriaMemorialLibrary
                 {
                     case 1:
                         List<Book> searchResults = Search(Library);
-                        BookListView list = new BookListView(searchResults);
-                        Console.Clear();
-                        Console.WriteLine("_____________________________________________");
-                        Console.WriteLine("Here are the books we found for your search.");
-                        Console.WriteLine("_____________________________________________");
-                        list.Display();
-                        Console.WriteLine("_____________________________________________");
-                        Console.WriteLine();
-                        Console.WriteLine("Which book would you like to select?");
-
-                        selection = 0;
-                        selection = UserInput();
-                        while (selection < 1 || selection > searchResults.Count)
+                        if (searchResults.Count > 0)
                         {
-                            Console.WriteLine("I'm sorry, please select an option from the menu.");
+                            BookListView list = new BookListView(searchResults);
+                            Console.Clear();
+                            Console.WriteLine("_____________________________________________");
+                            Console.WriteLine("Here are the books we found for your search.");
+                            Console.WriteLine("_____________________________________________");
+                            list.Display();
+                            Console.WriteLine("_____________________________________________");
+                            Console.WriteLine();
+                            Console.WriteLine("Which book would you like to select?");
+
+                            selection = 0;
                             selection = UserInput();
-                        }
-                        selection--;
-                        Book interact = searchResults[selection];
-                        BookView bookAction = new BookView(interact);
-                        Console.Clear();
+                            while (selection < 1 || selection > searchResults.Count)
+                            {
+                                Console.WriteLine("I'm sorry, please select an option from the menu.");
+                                selection = UserInput();
+                            }
+                            selection--;
+                            Book interact = searchResults[selection];
+                            BookView bookAction = new BookView(interact);
+                            Console.Clear();
 
-                        Console.WriteLine("_____________________________________________");
-                        bookAction.Display();
-                        Console.WriteLine("_____________________________________________");
-                        Console.WriteLine();
-                        Console.WriteLine("_____________________________________________");
-                        Console.WriteLine("1: Checkout this book\n2: Return this book");
-                        Console.WriteLine("_____________________________________________");
+                            Console.WriteLine("_____________________________________________");
+                            bookAction.Display();
+                            Console.WriteLine("_____________________________________________");
+                            Console.WriteLine();
+                            Console.WriteLine("_____________________________________________");
+                            Console.WriteLine("1: Checkout this book\n2: Return this book");
+                            Console.WriteLine("_____________________________________________");
 
-                        selection = UserInput();
-                        while (selection < 1 || selection > 2)
-                        {
-                            Console.WriteLine("I'm sorry, please select an option from the menu.");
                             selection = UserInput();
-                        }
+                            while (selection < 1 || selection > 2)
+                            {
+                                Console.WriteLine("I'm sorry, please select an option from the menu.");
+                                selection = UserInput();
+                            }
 
-                        if (selection == 1)
-                        {
-                            if (interact.Status == Status.CheckedOut)
+                            if (selection == 1)
                             {
-                                Console.WriteLine("This book is already checked out. Please come back after " + interact.DueDate.ToString() + ".");
+                                if (interact.Status == Status.CheckedOut)
+                                {
+                                    Console.WriteLine("This book is already checked out. Please come back after " + interact.DueDate.ToString() + ".");
+                                }
+                                else
+                                {
+                                    interact.CheckOut();
+                                }
+
                             }
-                            else
+                            if (selection == 2)
                             {
-                                interact.CheckOut();
+                                if (interact.Status == Status.OnShelf)
+                                {
+                                    Console.WriteLine("This book has not been checked out, therefore it cannot be returned.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Thank you for returning the book.");
+                                    interact.Return();
+                                }
+
                             }
-                            
                         }
-                        if (selection == 2)
+                        else
                         {
-                            if (interact.Status == Status.OnShelf)
-                            {
-                                Console.WriteLine("This book has not been checked out, therefore it cannot be returned.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Thank you for returning the book.");
-                                interact.Return();
-                            }
-                            
+                            Console.Clear();
+                            Console.WriteLine("_____________________________________________");
+                            Console.WriteLine("No books were found for your search.");
+                            Console.WriteLine("_____________________________________________");
+                            Console.WriteLine();
                         }
-                        break;
+                            break;
                     case 2:
                         break;
                     case 3:
@@ -431,6 +452,9 @@ namespace AlexandriaMemorialLibrary
                     Console.Clear();
                     Console.WriteLine("_____________________________________________");
                     Console.WriteLine("Please enter an available genre from the list below: ");
+                    Console.WriteLine("_____________________________________________");
+                    Console.WriteLine();
+                    Console.WriteLine("_____________________________________________");
                     foreach (var item in Enum.GetNames(typeof(Genre)))
                     {
                         Console.WriteLine(item);
@@ -444,6 +468,7 @@ namespace AlexandriaMemorialLibrary
                     return searchResults;
             }
             Console.WriteLine("_____________________________________________");
+            Console.WriteLine();
         
 
             string compare = Console.ReadLine().ToLower().Trim();
@@ -489,10 +514,9 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
                 case 3:
-                    foreach (Book book in library)
+                    ulong check = 0;
+                    while (check == 0)
                     {
-                        ulong check = 0;
-                        ulong isbn = book.ISBN;
                         try
                         {
                             check = ulong.Parse(compare);
@@ -500,7 +524,15 @@ namespace AlexandriaMemorialLibrary
                         catch (FormatException)
                         {
                             Console.WriteLine("Please only input numbers.");
+                            compare = Console.ReadLine().Trim();
                         }
+                    }
+                    
+
+                    foreach (Book book in library)
+                    {
+                        ulong isbn = book.ISBN;
+                        
                         if (isbn == check)
                         {
                             searchResults.Add(book);
@@ -512,10 +544,10 @@ namespace AlexandriaMemorialLibrary
                     {
                         foreach (Genre genre in Enum.GetValues(typeof(Genre)))
                         {
-                            string check = genre.ToString().ToLower();
+                            string genreCheck = genre.ToString().ToLower();
                             if (book.Genre.Contains(genre))
                             {
-                                if (check == compare)
+                                if (genreCheck == compare)
                                 {
                                     searchResults.Add(book);
                                 }
@@ -542,7 +574,6 @@ namespace AlexandriaMemorialLibrary
             catch (FormatException)
             {
                 output = 9999999;
-                Console.WriteLine("I'm sorry, please select a valid integer.");
             }
 
             return output;
