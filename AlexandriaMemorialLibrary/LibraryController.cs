@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace AlexandriaMemorialLibrary
 {
@@ -31,6 +32,8 @@ namespace AlexandriaMemorialLibrary
         {
             Library = new List<Book>();
             Loop = true;
+
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             //If the library was burned previously, generates a book to display this and stores it in the library
             if (File.Exists("Charred Remains.txt"))
@@ -399,6 +402,7 @@ namespace AlexandriaMemorialLibrary
 
             if (confirm == "hail caesar")
             {
+                //System.Console.Write('\u1F525
                 File.Delete("library.txt");
 
                 this.Library = new List<Book>();
@@ -673,8 +677,6 @@ namespace AlexandriaMemorialLibrary
         public void Donate()
         {
             //adds a book to library. asks user for input for each field
-            //checks against current library for matches so duplication doesnt occur
-            //to be implemented
             Console.WriteLine("Please enter the title of the book you would like to donate.");
             string title = Console.ReadLine();
             Console.WriteLine("Please enter the author of the book you would like to donate.");
@@ -688,13 +690,9 @@ namespace AlexandriaMemorialLibrary
             {
                 Console.WriteLine(item);
             }
-
-
-            
+  
             string a = Console.ReadLine().Trim().ToLower();
           
-
-
             string[] genre = a.Split(' ');
             List<Genre> genres = new List<Genre>();
             foreach (string compare in genre)
@@ -706,11 +704,11 @@ namespace AlexandriaMemorialLibrary
                         genres.Add(check);
                     }
                 }
-
             }
             bool present = false;
             string bookTitle = title.Trim().ToLower();
 
+            //checks against current library for matches so duplication doesnt occur
             for (int d = 0; d < Library.Count; d++)
             {    
                 Book book = Library[d];
@@ -744,9 +742,6 @@ namespace AlexandriaMemorialLibrary
             {
                 Console.WriteLine("The library already has a copy of this book. Thank you for your generosity.");
             }
-
-
-
         }
     }
 }
