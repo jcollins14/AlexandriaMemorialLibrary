@@ -7,7 +7,6 @@ namespace AlexandriaMemorialLibrary
     class BookView
     {
         private Book ThisBook { get; set; }
-
         public BookView(Book book)
         {
             this.ThisBook = book;
