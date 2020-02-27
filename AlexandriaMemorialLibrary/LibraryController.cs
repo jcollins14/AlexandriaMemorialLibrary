@@ -104,7 +104,7 @@ namespace AlexandriaMemorialLibrary
                 Library.Add(new Book()
                 {
                     Title = "The Food Lab: Better Home Cooking Through Science",
-                    Author = "J. Kenji Lopez-Alt",
+                    Author = "J. Kenji López-Alt",
                     ISBN = 9780393081084,
                     Status = Status.OnShelf,
                     Genre = new List<Genre> { Genre.SelfHelp },
