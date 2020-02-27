@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using static AlexandriaMemorialLibrary.Book;
 
 namespace AlexandriaMemorialLibrary
 {
@@ -42,7 +41,17 @@ namespace AlexandriaMemorialLibrary
             Library = new List<Book>();
             Loop = true;
 
-            if (!File.Exists("library.txt"))
+            //If the library was burned previously, generates a book to display this and stores it in the library
+            if (File.Exists("Charred Remains.txt"))
+            {
+                var savefile = File.Create("library.txt");
+                savefile.Close();
+                StreamWriter write = new StreamWriter("library.txt");
+                write.WriteLine("Charred Remains@Julius Caesar@0@Unavailable@SelfHelp @1/1/1800 12:00:00 AM");
+                write.Close();
+            }
+            //if the library hasn't been created yet, creates a library
+            else if (!File.Exists("library.txt"))
             {
                 var savefile = File.Create("library.txt");
                 savefile.Close();
@@ -129,6 +138,17 @@ namespace AlexandriaMemorialLibrary
                     ISBN = 9780425236291,
                     Status = Status.OnShelf,
                     Genre = new List<Genre> { Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                  
+                   Library.Add(new Book()
+                {
+                    Title = "Permanent Record",
+                    Author = "Edward Snowden",
+                    ISBN = 9781250237231,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Biography },
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
@@ -222,7 +242,16 @@ namespace AlexandriaMemorialLibrary
                     DueDate = new DateTime(1800, 1, 1)
                 }
                  );
-
+               Library.Add(new Book()
+                {
+                    Title = "Shoe Dog",
+                    Author = "Phil Knight",
+                    ISBN = 9781501135927,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Biography },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
             }
             read.Close();
         }
@@ -600,42 +629,32 @@ namespace AlexandriaMemorialLibrary
 
         public void Burn()
         {
-            //delete all books in library and clear out library db text file
-            //to be implemented
             Console.Clear();
-            Console.WriteLine("_____________________________________________");
-            Console.WriteLine("Burning down the library again will set civilization back by centuries.");
-            Console.WriteLine("Are you sure you want to continue? y/n");
-            Console.WriteLine("_____________________________________________");
-            string again = Console.ReadLine().Trim().ToLower();
-            while (again != "y" && again != "n")
+            Console.WriteLine("_________________________________________________________");
+            Console.WriteLine("WARNING: This action cannot be undone.");
+            Console.WriteLine("This will set back human civilization centuries.");
+            Console.WriteLine("Are you sure you'd like to continue?");
+            Console.WriteLine("If yes, please type \'HAIL CAESAR\' to confirm.");
+            Console.WriteLine("_________________________________________________________");
+
+            string confirm = Console.ReadLine().ToLower().Trim();
+
+            if (confirm == "hail caesar")
             {
-                Console.WriteLine("I didn't understand that. Please try again.");
-                again = Console.ReadLine().Trim().ToLower();
+                File.Delete("library.txt");
+
+                this.Library = new List<Book>();
+
+                var savefile = File.Create("Charred Remains.txt");
+                savefile.Close();
+
+                Exit();
             }
-            if (again == "n")
-            {
-                Console.Clear();
-                Console.WriteLine("Thank you for choosing not to set the library on fire again.");
-                
+          else
+          {
+            Console.WriteLine("Thank you for not burning down the library again.");
+          }
 
-            }
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("Press any key to start the fire.");
-                Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("You have burned down the Alexandria Memorial Library");
-                //Console.OutputEncoding = Encoding.UTF8;
-                //string a = "";
-                //Console.WriteLine(a);
-
-
-
-                Environment.Exit(1);
-             
-            }
         }
 
         public void Donate()
