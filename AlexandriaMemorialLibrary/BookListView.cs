@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AlexandriaMemorialLibrary
 {
     class BookListView
     {
         private List<Book> Library = new List<Book>();
-
         public BookListView(List<Book> library)
         {
             this.Library = library;
@@ -16,6 +14,7 @@ namespace AlexandriaMemorialLibrary
         public void Display()
         {
             int i = 1;
+            Library.Sort();
 
             //iterate through each book recorded in the library to display all books
             foreach (Book currentBook in Library)
@@ -31,13 +30,12 @@ namespace AlexandriaMemorialLibrary
                     }
                     else if (i < 100)
                     {
-                        listing.Insert(3, " <CHECKED OUT>");
+                        listing = listing.Insert(3, " <CHECKED OUT>");
                     }
                     else if (i < 1000)
                     {
-                        listing.Insert(4, " <CHECKED OUT>");
+                        listing = listing.Insert(4, " <CHECKED OUT>");
                     }
-
                 }
                 i++;
                 Console.WriteLine(listing);
