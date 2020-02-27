@@ -16,6 +16,7 @@ namespace AlexandriaMemorialLibrary
         public void Display()
         {
             int i = 1;
+            Library.Sort();
 
             //iterate through each book recorded in the library to display all books
             foreach (Book currentBook in Library)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AlexandriaMemorialLibrary
 {
-   class Book
+   class Book:IComparable<Book>
     {
         public string Title { get; set; }
         public string Author { get; set; }
@@ -57,6 +57,12 @@ namespace AlexandriaMemorialLibrary
         public void Return()
         {
             this.Status = Status.OnShelf;
+        }
+
+        //allows comparing books by title
+        public int CompareTo(Book other)
+        {
+            return Title.CompareTo(other.Title);
         }
     }
 }
