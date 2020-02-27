@@ -63,21 +63,21 @@ namespace AlexandriaMemorialLibrary
             {
                 Library.Add(new Book()
                 {
+                    Title = "Best of Bar Harbor",
+                    Author = "Greg Hartford",
+                    ISBN = 9780892727940,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                 );
+                Library.Add(new Book()
+                {
                     Title = "Dune",
                     Author = "Frank Herbert",
                     ISBN = 9780593099322,
                     Status = Status.OnShelf,
                     Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Fantasy },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                Library.Add(new Book()
-                {
-                    Title = "Radicalized",
-                    Author = "Cory Doctorow",
-                    ISBN = 9781250228598,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre>() { Genre.SciFi, },
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
@@ -93,77 +93,6 @@ namespace AlexandriaMemorialLibrary
                 );
                 Library.Add(new Book()
                 {
-                    Title = "Mud, Sweat, and Tears",
-                    Author = "Bear Grylls",
-                    ISBN = 9780062124135,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre>() { Genre.Biography },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                Library.Add(new Book()
-                {
-                    Title = "World War Z",
-                    Author = "Max Brooks",
-                    ISBN = 9780307346612,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Thriller },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                Library.Add(new Book()
-                {
-                    Title = "Watchmen",
-                    Author = "Alan Moore",
-                    ISBN = 9781779501129,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre>() { Genre.GraphicNovel, Genre.Mystery, Genre.SciFi },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                Library.Add(new Book()
-                {
-                    Title = "Journey to the Center of the Earth",
-                    Author = "Jules Verne",
-                    ISBN = 9780553213973,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                Library.Add(new Book()
-                {
-                    Title = "Spartan Gold",
-                    Author = "Clive Cussler",
-                    ISBN = 9780425236291,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.Adventure },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                  
-                   Library.Add(new Book()
-                {
-                    Title = "Permanent Record",
-                    Author = "Edward Snowden",
-                    ISBN = 9781250237231,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.Biography },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                Library.Add(new Book()
-                {
-                    Title = "The Line Between",
-                    Author = "Tosca Lee",
-                    ISBN = 9781476798622,
-                    Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.SciFi, Genre.Thriller },
-                    DueDate = new DateTime(1800, 1, 1)
-                }
-                );
-                Library.Add(new Book()
-                {
                     Title = "Excelsior!: The Amazing Life of Stan Lee",
                     Author = "Stan Lee",
                     ISBN = 9780684873053,
@@ -174,11 +103,11 @@ namespace AlexandriaMemorialLibrary
                 );
                 Library.Add(new Book()
                 {
-                    Title = "Murder on the Orient Express",
-                    Author = "Agatha Christie",
-                    ISBN = 9781579126230,
+                    Title = "The Food Lab: Better Home Cooking Through Science",
+                    Author = "J. Kenji Lopez-Alt",
+                    ISBN = 9780393081084,
                     Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.Mystery},
+                    Genre = new List<Genre> { Genre.SelfHelp },
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
@@ -194,34 +123,34 @@ namespace AlexandriaMemorialLibrary
                 );
                 Library.Add(new Book()
                 {
-                    Title = "The Secrets of Ireland",
-                    Author = "Kevin Eyres",
-                    ISBN = 9780760782811,
+                    Title = "The Institute",
+                    Author = "Stephen King",
+                    ISBN = 9781982110567,
                     Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.Travel },
+                    Genre = new List<Genre> { Genre.Thriller },
                     DueDate = new DateTime(1800, 1, 1)
                 }
-                 );
+                );
                 Library.Add(new Book()
                 {
-                    Title = "Best of Bar Harbor",
-                    Author = "Greg Hartford",
-                    ISBN = 9780892727940,
+                    Title = "Journey to the Center of the Earth",
+                    Author = "Jules Verne",
+                    ISBN = 9780553213973,
                     Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.Travel },
+                    Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
                     DueDate = new DateTime(1800, 1, 1)
                 }
-                 );
+                );
                 Library.Add(new Book()
                 {
-                    Title = "Turn Right At Machu Picchu",
-                    Author = "Mark Adams",
-                    ISBN = 9780452297982,
+                    Title = "The Line Between",
+                    Author = "Tosca Lee",
+                    ISBN = 9781476798622,
                     Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.Travel },
+                    Genre = new List<Genre> { Genre.SciFi, Genre.Thriller },
                     DueDate = new DateTime(1800, 1, 1)
                 }
-                 );
+                );
                 Library.Add(new Book()
                 {
                     Title = "The Martian",
@@ -231,17 +160,57 @@ namespace AlexandriaMemorialLibrary
                     Genre = new List<Genre> { Genre.SciFi, Genre.Adventure },
                     DueDate = new DateTime(1800, 1, 1)
                 }
-                 );
+                );
                 Library.Add(new Book()
                 {
-                    Title = "The Institute",
-                    Author = "Stephen King",
-                    ISBN = 9781982110567,
+                    Title = "Mud, Sweat, and Tears",
+                    Author = "Bear Grylls",
+                    ISBN = 9780062124135,
                     Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.Thriller },
+                    Genre = new List<Genre>() { Genre.Biography },
                     DueDate = new DateTime(1800, 1, 1)
                 }
-                 );
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Murder on the Orient Express",
+                    Author = "Agatha Christie",
+                    ISBN = 9781579126230,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Mystery},
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Permanent Record",
+                    Author = "Edward Snowden",
+                    ISBN = 9781250237231,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Biography },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Radicalized",
+                    Author = "Cory Doctorow",
+                    ISBN = 9781250228598,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.SciFi, },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "The Secrets of Ireland",
+                    Author = "Kevin Eyres",
+                    ISBN = 9780760782811,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
                Library.Add(new Book()
                 {
                     Title = "Shoe Dog",
@@ -254,11 +223,41 @@ namespace AlexandriaMemorialLibrary
                 );
                 Library.Add(new Book()
                 {
-                    Title = "The Food Lab: Better Home Cooking Through Science",
-                    Author = "J. Kenji Lopez-Alt",
-                    ISBN = 9780393081084,
+                    Title = "Spartan Gold",
+                    Author = "Clive Cussler",
+                    ISBN = 9780425236291,
                     Status = Status.OnShelf,
-                    Genre = new List<Genre> { Genre.SelfHelp },
+                    Genre = new List<Genre> { Genre.Adventure },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Turn Right At Machu Picchu",
+                    Author = "Mark Adams",
+                    ISBN = 9780452297982,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre> { Genre.Travel },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "Watchmen",
+                    Author = "Alan Moore",
+                    ISBN = 9781779501129,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.GraphicNovel, Genre.Mystery, Genre.SciFi },
+                    DueDate = new DateTime(1800, 1, 1)
+                }
+                );
+                Library.Add(new Book()
+                {
+                    Title = "World War Z",
+                    Author = "Max Brooks",
+                    ISBN = 9780307346612,
+                    Status = Status.OnShelf,
+                    Genre = new List<Genre>() { Genre.SciFi, Genre.Adventure, Genre.Thriller },
                     DueDate = new DateTime(1800, 1, 1)
                 }
                 );
