@@ -338,7 +338,7 @@ namespace AlexandriaMemorialLibrary
                             }
                             if (selection == 2)
                             {
-                                if (interact.Status == Status.OnShelf)
+                                if (interact.Status != Status.CheckedOut )
                                 {
                                     Console.WriteLine("This book has not been checked out, therefore it cannot be returned.");
                                 }
