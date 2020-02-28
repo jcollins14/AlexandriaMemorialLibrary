@@ -530,7 +530,7 @@ namespace AlexandriaMemorialLibrary
                 string[] construct = line.Split('|');
                 string title = construct[0];
                 string author = construct[1];
-                ulong isbn = ulong.Parse(construct[2]);
+                 ulong.TryParse(construct[2],out ulong isbn);
                 //compares status string to Status enum to get proper Enum set
                 string build = construct[3];
                 Status status = Status.Unavailable;
@@ -555,7 +555,20 @@ namespace AlexandriaMemorialLibrary
                     }
                 }
                 //parses Date string into proper DateTime type
-                DateTime dueDate = DateTime.Parse(construct[5]);
+                DateTime dueDate = new DateTime(1800, 1, 1);
+                try
+                {
+                     dueDate = DateTime.Parse(construct[5]);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Error Loading Date for " + title + "! Setting to default due date.");
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Error Loading Date for " + title + "! Setting to default due date.");
+                }
+                
                 //Constructs new Book object and adds it to the library
                 Book add = new Book(title, author, isbn, status, genre, dueDate);
                 Library.Add(add);
