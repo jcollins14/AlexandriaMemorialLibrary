@@ -440,6 +440,12 @@ namespace AlexandriaMemorialLibrary
                     Console.WriteLine();
                     isbn = 0;
                 }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("Please only input a 13-digit number.");
+                    Console.WriteLine();
+                    isbn = 0;
+                }
                 if (isbn < 1000000000000 || isbn > 9999999999999)
                 {
                     Console.WriteLine("Please only input a 13-digit number.");
