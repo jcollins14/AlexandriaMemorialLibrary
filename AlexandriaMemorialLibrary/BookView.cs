@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlexandriaMemorialLibrary
 {
@@ -11,13 +9,12 @@ namespace AlexandriaMemorialLibrary
         {
             this.ThisBook = book;
         }
-
+        //Display a single book
         public void Display()
         {
             Console.WriteLine("Title: " + ThisBook.Title);
             Console.WriteLine("Author: " + ThisBook.Author);
             Console.WriteLine("Status: " + ThisBook.Status);
-
             //display multiple genres in the same line
             Console.Write("Genre(s): ");
             foreach (Genre genre in ThisBook.Genre)
@@ -25,9 +22,7 @@ namespace AlexandriaMemorialLibrary
                 Console.Write(genre + " ");
             }
             Console.WriteLine();
-
             Console.WriteLine("ISBN: " + ThisBook.ISBN);
-
             //if book is checked out, display expected due date
             if (ThisBook.Status.Equals(Status.CheckedOut))
             {
