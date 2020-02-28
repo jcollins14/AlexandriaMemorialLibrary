@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace AlexandriaMemorialLibrary
 {
@@ -44,6 +43,7 @@ namespace AlexandriaMemorialLibrary
                 write.WriteLine("Charred Remains@Julius Caesar@0@Unavailable@SelfHelp@1/1/1800 12:00:00 AM");
                 write.Close();
             }
+
             //if the library hasn't been created yet, creates a library
             else if (!File.Exists("library.txt"))
             {
@@ -64,7 +64,7 @@ namespace AlexandriaMemorialLibrary
                     Genre = new List<Genre> { Genre.Travel },
                     DueDate = new DateTime(1800, 1, 1)
                 }
-                 );
+                );
                 Library.Add(new Book()
                 {
                     Title = "Dune",
@@ -261,9 +261,7 @@ namespace AlexandriaMemorialLibrary
 
         public void Run()
         {
-            Console.WriteLine("_________________________________________________________");
             Console.WriteLine("Welcome to the Alexandria Memorial Library Database \nPress any key to continue");
-            Console.WriteLine("_________________________________________________________");
             Console.ReadKey();
             Console.Clear();
 
@@ -341,7 +339,6 @@ namespace AlexandriaMemorialLibrary
                                     Console.WriteLine("Thank you for checking out " + interact.Title + ". It is due " + interact.DueDate + ".");
                                     Console.WriteLine();
                                 }
-
                             }
                             if (selection == 2)
                             {
@@ -412,13 +409,119 @@ namespace AlexandriaMemorialLibrary
                 var savefile = File.Create("Charred Remains.txt");
                 savefile.Close();
 
-
                 Exit();
             }
           else
           {
             Console.WriteLine("Thank you for not burning down the library again.");
           }
+        }
+        public void Donate()
+        {
+            //adds a book to library. asks user for input for each field
+            Console.Clear();
+            Console.WriteLine("____________________________________________________________");
+            Console.WriteLine("Please enter the title of the book you would like to donate.");
+            Console.WriteLine("____________________________________________________________");
+            string title = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("_____________________________________________________________");
+            Console.WriteLine("Please enter the author of the book you would like to donate.");
+            Console.WriteLine("_____________________________________________________________");
+            string author = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("_______________________________________________________________________");
+            Console.WriteLine("Please enter the ISBN (13-digits) of the book you would like to donate.");
+            Console.WriteLine("_______________________________________________________________________");
+
+            //input validation for ISBN to be a 13 digit number
+            ulong isbn = 0;
+            while (isbn < 1000000000000 || isbn > 9999999999999)
+            {
+                try
+                {
+                    string i = Console.ReadLine().Trim();
+                    isbn = ulong.Parse(i);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Please only input a 13-digit number.");
+                    isbn = 0;
+                }
+                if (isbn < 1000000000000 || isbn > 9999999999999)
+                {
+                    Console.WriteLine("Please only input a 13-digit number.");
+                }
+            }
+
+            Console.Clear();
+            Console.WriteLine("_____________________________________________________________");
+            Console.WriteLine("Please select the genre of the book you would like to donate.");
+            Console.WriteLine("Separate multiple genres with a space.");
+            Console.WriteLine("_____________________________________________________________");
+            Console.WriteLine();
+            Console.WriteLine("_____________________________________________________________");
+
+            foreach (var item in Enum.GetNames(typeof(Genre)))
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("_____________________________________________________________");
+
+            string a = Console.ReadLine().Trim().ToLower();
+
+            Console.Clear();
+
+            string[] genre = a.Split(' ');
+            List<Genre> genres = new List<Genre>();
+            foreach (string compare in genre)
+            {
+                foreach (Genre check in Enum.GetValues(typeof(Genre)))
+                {
+                    if (check.ToString().Trim().ToLower() == compare)
+                    {
+                        genres.Add(check);
+                    }
+                }
+            }
+
+            bool present = false;
+            string bookTitle = title.Trim().ToLower();
+
+            //checks against current library for matches so duplication doesnt occur
+            for (int d = 0; d < Library.Count; d++)
+            {
+                Book book = Library[d];
+                List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
+                string original = book.Title.Trim().ToLower();
+                for (int b = 0; b < original.Length; b++)
+                {
+                    if (delimiter.Contains(original[b]))
+                    {
+                        original = original.Remove(b, 1);
+                    }
+                }
+                for (int c = 0; c < bookTitle.Length; c++)
+                {
+                    if (delimiter.Contains(bookTitle[c]))
+                    {
+                        bookTitle = bookTitle.Remove(c, 1);
+                    }
+                }
+                if (bookTitle == original)
+                {
+                    present = true;
+                }
+            }
+            if (!present)
+            {
+                Book add = new Book(title, author, isbn, Status.OnShelf, genres);
+                Library.Add(add);
+            }
+            else
+            {
+                Console.WriteLine("The library already has a copy of this book. Thank you for your generosity.");
+            }
         }
         public void Exit()
         {
@@ -434,7 +537,7 @@ namespace AlexandriaMemorialLibrary
             while ((line = read.ReadLine()) != null)
             {
                 //splits attribute fields into separate strings
-                string[] construct = line.Split('@');
+                string[] construct = line.Split('|');
 
                 string title = construct[0];
 
@@ -480,23 +583,24 @@ namespace AlexandriaMemorialLibrary
         {
             StreamWriter write = new StreamWriter("library.txt");
 
-            //writes out each attribute field using '@' as a delimiter for separation later upon load.
+            //writes out each attribute field using '|' as a delimiter for separation later upon load.
+            char delimiter = '|';
             foreach (Book book in Library)
             {
                 write.Write(book.Title);
-                write.Write("@");
+                write.Write(delimiter);
                 write.Write(book.Author);
-                write.Write("@");
+                write.Write(delimiter);
                 write.Write(book.ISBN);
-                write.Write("@");
+                write.Write(delimiter);
                 write.Write(book.Status);
-                write.Write("@");
+                write.Write(delimiter);
                 foreach (Genre category in book.Genre)
                 {
                     write.Write(category);
                     write.Write(" ");
                 }
-                write.Write("@");
+                write.Write(delimiter);
                 write.Write(book.DueDate.ToString());
 
                 //separates each object on its own line
@@ -574,6 +678,7 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine();
 
             string compare = Console.ReadLine().ToLower().Trim();
+
             //second switch case uses intial option to keep consistency
             switch (selection)
             {
@@ -590,12 +695,10 @@ namespace AlexandriaMemorialLibrary
                             }
                         }
                         title = title.ToLower();
-                     
                         if (title.Contains(compare))
                         {
                             searchResults.Add(book);
                         }
-                        
                     }
                     break;
                 case 2:
@@ -618,6 +721,7 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
                 case 3:
+        
                     ulong check = 0;
                     while (check == 0)
                     {
@@ -676,94 +780,7 @@ namespace AlexandriaMemorialLibrary
             {
                 output = 9999999;
             }
-
             return output;
-        }
-        public void Donate()
-        {
-            //adds a book to library. asks user for input for each field
-            Console.WriteLine("Please enter the title of the book you would like to donate.");
-            string title = Console.ReadLine();
-            Console.WriteLine("Please enter the author of the book you would like to donate.");
-            string author = Console.ReadLine();
-            Console.WriteLine("Please enter the ISBN (13-digits) of the book you would like to donate.");
-            
-            ulong isbn = 0;
-
-            //input validation for ISBN to be a 13 digit number
-            while (isbn < 1000000000000 || isbn > 9999999999999)
-            {
-                try
-                {
-                    string i = Console.ReadLine().Trim();
-                    isbn = ulong.Parse(i);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Please only input a 13-digit number.");
-                    isbn = 0;
-                }
-            }
-     
-            Console.WriteLine("Please select the genre of the book you would like to donate. Separate multiple genres with a space.");
-
-            foreach (var item in Enum.GetNames(typeof(Genre)))
-            {
-                Console.WriteLine(item);
-            }
-  
-            string a = Console.ReadLine().Trim().ToLower();
-          
-            string[] genre = a.Split(' ');
-            List<Genre> genres = new List<Genre>();
-            foreach (string compare in genre)
-            {
-                foreach (Genre check in Enum.GetValues(typeof(Genre)))
-                {
-                    if (check.ToString().Trim().ToLower() == compare)
-                    {
-                        genres.Add(check);
-                    }
-                }
-            }
-            bool present = false;
-            string bookTitle = title.Trim().ToLower();
-
-            //checks against current library for matches so duplication doesnt occur
-            for (int d = 0; d < Library.Count; d++)
-            {    
-                Book book = Library[d];
-                List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
-                string original = book.Title.Trim().ToLower();
-                for (int b = 0; b < original.Length; b++)
-                {
-                    if (delimiter.Contains(original[b]))
-                    {
-                        original = original.Remove(b, 1);
-                    }
-                }
-               for (int c = 0; c < bookTitle.Length; c++)
-                {
-                    if (delimiter.Contains(bookTitle[c]))
-                    {
-                        bookTitle = bookTitle.Remove(c, 1);
-                    }
-                }
-                if (bookTitle == original)
-                {
-                    present = true;
-                }
-            }
-            if (!present)
-            {
-                Book add = new Book(title, author, isbn, Status.OnShelf, genres);
-                Library.Add(add);
-                Console.WriteLine("Your book has been accepted into the library. Thank you.");
-            }
-            else
-            {
-                Console.WriteLine("The library already has a copy of this book. Thank you for your generosity.");
-            }
         }
     }
 }
