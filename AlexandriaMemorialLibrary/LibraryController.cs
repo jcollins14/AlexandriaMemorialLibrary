@@ -32,15 +32,13 @@ namespace AlexandriaMemorialLibrary
             Library = new List<Book>();
             Loop = true;
 
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-
             //If the library was burned previously, generates a book to display this and stores it in the library
             if (File.Exists("Charred Remains.txt"))
             {
                 var savefile = File.Create("library.txt");
                 savefile.Close();
                 StreamWriter write = new StreamWriter("library.txt");
-                write.WriteLine("Charred Remains@Julius Caesar@0@Unavailable@SelfHelp@1/1/1800 12:00:00 AM");
+                write.WriteLine("Charred Remains|Julius Caesar|0|Unavailable|SelfHelp|1/1/1800 12:00:00 AM");
                 write.Close();
             }
 
