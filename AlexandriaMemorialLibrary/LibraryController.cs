@@ -4,6 +4,7 @@ using System.IO;
 
 namespace AlexandriaMemorialLibrary
 {
+    //Defined book statuses for the book object
     enum Status
     {
         OnShelf,
@@ -11,6 +12,7 @@ namespace AlexandriaMemorialLibrary
         Processing,
         Unavailable
     }
+    //Defined book genres for the book object
     enum Genre
     {
         Fantasy,
@@ -25,13 +27,14 @@ namespace AlexandriaMemorialLibrary
     }
     class LibraryController
     {
+        //Main list of book objects utilized by the controller.
         private List<Book> Library { get; set; }
+        //Global bool variable that determines whether or not the application continues. Used to restart after completing an action
         private bool Loop { get; set; }
         public LibraryController()
         {
             Library = new List<Book>();
             Loop = true;
-
             //If the library was burned previously, generates a book to display this and stores it in the library
             if (File.Exists("Charred Remains.txt"))
             {
@@ -41,15 +44,13 @@ namespace AlexandriaMemorialLibrary
                 write.WriteLine("Charred Remains|Julius Caesar|0|Unavailable|SelfHelp|1/1/1800 12:00:00 AM");
                 write.Close();
             }
-
-            //if the library hasn't been created yet, creates a library
+            //if the library file hasn't been created yet, creates a library file
             else if (!File.Exists("library.txt"))
             {
                 var savefile = File.Create("library.txt");
                 savefile.Close();
             }
             StreamReader read = new StreamReader("library.txt");
-
             //loads default library if unable to read file
             if (read.ReadLine() == null)
             {
@@ -256,28 +257,27 @@ namespace AlexandriaMemorialLibrary
             }
             read.Close();
         }
-
+        //Main method used to run the application
         public void Run()
         {
-            Console.WriteLine("Welcome to the Alexandria Memorial Library Database \nPress any key to continue");
+            Console.WriteLine("____________________________________________________");
+            Console.WriteLine("Welcome to the Alexandria Memorial Library Database. \nPress any key to continue");
+            Console.WriteLine("____________________________________________________");
             Console.ReadKey();
             Console.Clear();
-
             while (Loop)
             {
                 Console.WriteLine("_____________________________________________");
                 Console.WriteLine("What would you like to do?");
                 Console.WriteLine("1: Search for a book\n2: Donate a book\n3: Burn the Library\n4: Exit Application");
                 Console.WriteLine("_____________________________________________");
-
                 int selection = UserInput();
-
                 while (selection > 4 || selection == 9999999)
                 {
                     Console.WriteLine("I'm sorry, please select an option from the menu.");
+                    Console.WriteLine();
                     selection = UserInput();
                 }
-
                 switch (selection)
                 {
                     case 1:
@@ -293,19 +293,18 @@ namespace AlexandriaMemorialLibrary
                             Console.WriteLine("_____________________________________________");
                             Console.WriteLine();
                             Console.WriteLine("Which book would you like to select?");
-
                             selection = 0;
                             selection = UserInput();
                             while (selection < 1 || selection > searchResults.Count)
                             {
                                 Console.WriteLine("I'm sorry, please select an option from the menu.");
+                                Console.WriteLine();
                                 selection = UserInput();
                             }
                             selection--;
                             Book interact = searchResults[selection];
                             BookView bookAction = new BookView(interact);
                             Console.Clear();
-
                             Console.WriteLine("_____________________________________________");
                             bookAction.Display();
                             Console.WriteLine("_____________________________________________");
@@ -313,14 +312,13 @@ namespace AlexandriaMemorialLibrary
                             Console.WriteLine("_____________________________________________");
                             Console.WriteLine("1: Checkout this book\n2: Return this book");
                             Console.WriteLine("_____________________________________________");
-
                             selection = UserInput();
                             while (selection < 1 || selection > 2)
                             {
                                 Console.WriteLine("I'm sorry, please select an option from the menu.");
+                                Console.WriteLine();
                                 selection = UserInput();
                             }
-
                             if (selection == 1)
                             {
                                 if (interact.Status == Status.CheckedOut)
@@ -340,7 +338,7 @@ namespace AlexandriaMemorialLibrary
                             }
                             if (selection == 2)
                             {
-                                if (interact.Status == Status.OnShelf)
+                                if (interact.Status != Status.CheckedOut )
                                 {
                                     Console.WriteLine("This book has not been checked out, therefore it cannot be returned.");
                                 }
@@ -385,6 +383,7 @@ namespace AlexandriaMemorialLibrary
             }
             Exit();
         }
+        //Deletes all books from the library, creates 'Charred Remains.txt' to indicate a previous fire on future boots, and exits the application
         public void Burn()
         {
             Console.Clear();
@@ -394,19 +393,13 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine("Are you sure you'd like to continue?");
             Console.WriteLine("If yes, please type \'HAIL CAESAR\' to confirm.");
             Console.WriteLine("_________________________________________________________");
-
             string confirm = Console.ReadLine().ToLower().Trim();
-
             if (confirm == "hail caesar")
             {
-                //System.Console.Write('\u1F525
                 File.Delete("library.txt");
-
                 this.Library = new List<Book>();
-
                 var savefile = File.Create("Charred Remains.txt");
                 savefile.Close();
-
                 Exit();
             }
           else
@@ -414,6 +407,7 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine("Thank you for not burning down the library again.");
           }
         }
+        //Allows the user to input information, constructs a book object from this information and adds it to the library
         public void Donate()
         {
             //adds a book to library. asks user for input for each field
@@ -431,7 +425,6 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine("_______________________________________________________________________");
             Console.WriteLine("Please enter the ISBN (13-digits) of the book you would like to donate.");
             Console.WriteLine("_______________________________________________________________________");
-
             //input validation for ISBN to be a 13 digit number
             ulong isbn = 0;
             while (isbn < 1000000000000 || isbn > 9999999999999)
@@ -444,14 +437,21 @@ namespace AlexandriaMemorialLibrary
                 catch (FormatException)
                 {
                     Console.WriteLine("Please only input a 13-digit number.");
+                    Console.WriteLine();
+                    isbn = 0;
+                }
+                catch (OverflowException)
+                {
+                    Console.WriteLine("Please only input a 13-digit number.");
+                    Console.WriteLine();
                     isbn = 0;
                 }
                 if (isbn < 1000000000000 || isbn > 9999999999999)
                 {
                     Console.WriteLine("Please only input a 13-digit number.");
+                    Console.WriteLine();
                 }
             }
-
             Console.Clear();
             Console.WriteLine("_____________________________________________________________");
             Console.WriteLine("Please select the genre of the book you would like to donate.");
@@ -459,17 +459,13 @@ namespace AlexandriaMemorialLibrary
             Console.WriteLine("_____________________________________________________________");
             Console.WriteLine();
             Console.WriteLine("_____________________________________________________________");
-
             foreach (var item in Enum.GetNames(typeof(Genre)))
             {
                 Console.WriteLine(item);
             }
             Console.WriteLine("_____________________________________________________________");
-
             string a = Console.ReadLine().Trim().ToLower();
-
             Console.Clear();
-
             string[] genre = a.Split(' ');
             List<Genre> genres = new List<Genre>();
             foreach (string compare in genre)
@@ -482,10 +478,8 @@ namespace AlexandriaMemorialLibrary
                     }
                 }
             }
-
             bool present = false;
             string bookTitle = title.Trim().ToLower();
-
             //checks against current library for matches so duplication doesnt occur
             for (int d = 0; d < Library.Count; d++)
             {
@@ -521,13 +515,17 @@ namespace AlexandriaMemorialLibrary
                 Console.WriteLine("The library already has a copy of this book. Thank you for your generosity.");
             }
         }
+        //Exits the application and calls the save method
         public void Exit()
         {
             Console.Clear();
+            Console.WriteLine("_____________________________________________________________");
             Console.WriteLine("Thank you for using the Alexandria Memorial Library. Goodbye.");
+            Console.WriteLine("_____________________________________________________________");
             Save();
             Environment.Exit(1);
         }
+        //Loads Book objects from a text file and inserts them into the Library
         public void Load()
         {
             string line;
@@ -536,13 +534,9 @@ namespace AlexandriaMemorialLibrary
             {
                 //splits attribute fields into separate strings
                 string[] construct = line.Split('|');
-
                 string title = construct[0];
-
                 string author = construct[1];
-
-                ulong isbn = ulong.Parse(construct[2]);
-
+                 ulong.TryParse(construct[2],out ulong isbn);
                 //compares status string to Status enum to get proper Enum set
                 string build = construct[3];
                 Status status = Status.Unavailable;
@@ -553,7 +547,6 @@ namespace AlexandriaMemorialLibrary
                         status = measure;
                     }
                 }
-
                 //similar process for Genres, except adds to list for multiple Genres
                 string[] genres = construct[4].Split(' ');
                 List<Genre> genre = new List<Genre>();
@@ -567,20 +560,31 @@ namespace AlexandriaMemorialLibrary
                         }
                     }
                 }
-
                 //parses Date string into proper DateTime type
-                DateTime dueDate = DateTime.Parse(construct[5]);
-
+                DateTime dueDate = new DateTime(1800, 1, 1);
+                try
+                {
+                     dueDate = DateTime.Parse(construct[5]);
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Error Loading Date for " + title + "! Setting to default due date.");
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Error Loading Date for " + title + "! Setting to default due date.");
+                }
+                
                 //Constructs new Book object and adds it to the library
                 Book add = new Book(title, author, isbn, status, genre, dueDate);
                 Library.Add(add);
             }
             read.Close();
         }
+        //Saves current library to a text file
         public void Save()
         {
             StreamWriter write = new StreamWriter("library.txt");
-
             //writes out each attribute field using '|' as a delimiter for separation later upon load.
             char delimiter = '|';
             foreach (Book book in Library)
@@ -600,14 +604,13 @@ namespace AlexandriaMemorialLibrary
                 }
                 write.Write(delimiter);
                 write.Write(book.DueDate.ToString());
-
                 //separates each object on its own line
                 write.WriteLine();
             }
             //closes and saves file
             write.Close();
         }
-
+        //Searches a given library for a specific attriubute. Returns a new list of books
         public List<Book> Search(List<Book> library)
         {
             //instantiate new book list for search results to add to
@@ -615,25 +618,20 @@ namespace AlexandriaMemorialLibrary
             //create list of items to remove from titles, etc (punctuation, spaces)
             List<char> delimiter = new List<char>() { ' ', ',', '\'', '?', '.', '!', '"', ':', '-', '&' };
             Console.Clear();
-
             Console.WriteLine("_____________________________________________");
             Console.WriteLine("How would you like to search for a book?");
             Console.WriteLine("1: Title \n2: Author \n3: ISBN \n4: Genre \n5: Display All Books");
             Console.WriteLine("_____________________________________________");
-
             int selection = 0;
-
             while (selection == 0)
             {
                 selection = UserInput();
-
                 if (selection <= 0 || selection > 5)
                 {
                     Console.WriteLine("Please select a valid option.");
                     selection = 0;
                 }
             }
-
             //user picks an attribute of the Book object to search for
             Console.WriteLine("_____________________________________________");
             switch (selection)
@@ -674,9 +672,7 @@ namespace AlexandriaMemorialLibrary
             }
             Console.WriteLine("_____________________________________________");
             Console.WriteLine();
-
             string compare = Console.ReadLine().ToLower().Trim();
-
             //second switch case uses intial option to keep consistency
             switch (selection)
             {
@@ -684,7 +680,6 @@ namespace AlexandriaMemorialLibrary
                     foreach (Book book in library)
                     {
                         string title = book.Title;
-
                         for (int i = 0; i < title.Length; i++)
                         {
                             if (delimiter.Contains(title[i]))
@@ -703,7 +698,6 @@ namespace AlexandriaMemorialLibrary
                     foreach (Book book in library)
                     {
                         string author = book.Author;
-
                         for (int i = 0; i < author.Length; i++)
                         {
                             if (delimiter.Contains(author[i]))
@@ -719,7 +713,6 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
                 case 3:
-        
                     ulong check = 0;
                     while (check == 0)
                     {
@@ -733,7 +726,6 @@ namespace AlexandriaMemorialLibrary
                             compare = Console.ReadLine().Trim();
                         }
                     }
-
                     foreach (Book book in library)
                     {
                         ulong isbn = book.ISBN;
@@ -763,7 +755,6 @@ namespace AlexandriaMemorialLibrary
             }
             return searchResults;
         }
-
         //used for exception catching and input validation. returns 9999999 on an error.
         public int UserInput()
         {
