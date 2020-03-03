@@ -293,7 +293,6 @@ namespace AlexandriaMemorialLibrary
                             Console.WriteLine("_____________________________________________");
                             Console.WriteLine();
                             Console.WriteLine("Which book would you like to select?");
-                            selection = 0;
                             selection = UserInput();
                             while (selection < 1 || selection > searchResults.Count)
                             {
@@ -310,7 +309,6 @@ namespace AlexandriaMemorialLibrary
                             Console.WriteLine("_____________________________________________");
                             Console.WriteLine();
                             Console.WriteLine("_____________________________________________");
-
                             if (interact.Status == Status.OnShelf)
                             {
                                 Console.WriteLine("Would you like to check out this book? (y/n)");
@@ -320,7 +318,6 @@ namespace AlexandriaMemorialLibrary
                                 Console.WriteLine("Would you like to return this book? (y/n)");
                             }
                             Console.WriteLine("_____________________________________________");
-                            
                             string response = Console.ReadLine().Trim().ToLower();
                             while (response != "y" && response != "n")
                             {
@@ -348,6 +345,7 @@ namespace AlexandriaMemorialLibrary
                                 Console.WriteLine();
                                 Console.WriteLine("_____________________________________________");
                                 Console.WriteLine("Thank you for returning " + interact.Title + ".");
+                                //overdue check
                                 if (interact.DueDate < DateTime.Now && interact.DueDate > new DateTime(1900, 1, 1))
                                 {
                                     Console.WriteLine("As a courtesy, your fee has been waived.");

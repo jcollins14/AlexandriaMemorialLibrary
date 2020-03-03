@@ -28,6 +28,7 @@ namespace AlexandriaMemorialLibrary
             {
                 Console.WriteLine("Due Date: " + ThisBook.DueDate);
             }
+            //checks due date to determine if book is overdue.
             if (ThisBook.DueDate < DateTime.Now && ThisBook.DueDate > new DateTime(1900,1,1))
             {
                 Console.WriteLine("This book is Overdue.");
