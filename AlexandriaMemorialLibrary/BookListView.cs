@@ -22,18 +22,7 @@ namespace AlexandriaMemorialLibrary
                 //add "<CHECKED OUT>" to book string if the book isnt available
                 if (currentBook.Status.Equals(Status.CheckedOut))
                 {
-                    if (i < 10)
-                    {
-                        listing = listing.Insert(2, " <CHECKED OUT>");
-                    }
-                    else if (i < 100)
-                    {
-                        listing = listing.Insert(3, " <CHECKED OUT>");
-                    }
-                    else if (i < 1000)
-                    {
-                        listing = listing.Insert(4, " <CHECKED OUT>");
-                    }
+                    listing += " <CHECKED OUT>";
                 }
                 i++;
                 Console.WriteLine(listing);
