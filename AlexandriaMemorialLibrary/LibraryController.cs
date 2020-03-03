@@ -293,7 +293,6 @@ namespace AlexandriaMemorialLibrary
                             Console.WriteLine("_____________________________________________");
                             Console.WriteLine();
                             Console.WriteLine("Which book would you like to select?");
-                            selection = 0;
                             selection = UserInput();
                             while (selection < 1 || selection > searchResults.Count)
                             {
@@ -310,43 +309,50 @@ namespace AlexandriaMemorialLibrary
                             Console.WriteLine("_____________________________________________");
                             Console.WriteLine();
                             Console.WriteLine("_____________________________________________");
-                            Console.WriteLine("1: Checkout this book\n2: Return this book");
+                            if (interact.Status == Status.OnShelf)
+                            {
+                                Console.WriteLine("Would you like to check out this book? (y/n)");
+                            }
+                            else if (interact.Status == Status.CheckedOut)
+                            {
+                                Console.WriteLine("Would you like to return this book? (y/n)");
+                            }
                             Console.WriteLine("_____________________________________________");
-                            selection = UserInput();
-                            while (selection < 1 || selection > 2)
+                            string response = Console.ReadLine().Trim().ToLower();
+                            while (response != "y" && response != "n")
                             {
-                                Console.WriteLine("I'm sorry, please select an option from the menu.");
+                                Console.WriteLine("I didn't understand that. Please try again.");
+                                response = Console.ReadLine().Trim().ToLower();
+                            }
+                            if (response == "n")
+                            {
                                 Console.WriteLine();
-                                selection = UserInput();
+                                break;
                             }
-                            if (selection == 1)
+                            else if (response == "y" && interact.Status == Status.OnShelf)
                             {
-                                if (interact.Status == Status.CheckedOut)
-                                {
-                                    Console.WriteLine("This book is already checked out. Please come back after " + interact.DueDate.ToString() + ".");
-                                }
-                                else if (interact.Status == Status.Unavailable)
-                                {
-                                    Console.WriteLine("I'm sorry, this book isnt available right now.");
-                                }
-                                else
-                                {
-                                    interact.CheckOut();
-                                    Console.WriteLine("Thank you for checking out " + interact.Title + ". It is due " + interact.DueDate + ".");
-                                    Console.WriteLine();
-                                }
+                                interact.CheckOut();
+                                Console.WriteLine();
+                                Console.WriteLine("_____________________________________________");
+                                Console.WriteLine("Thank you for checking out " + interact.Title + ".");
+                                Console.WriteLine("It is due on " + interact.DueDate + ".");
+                                Console.WriteLine("_____________________________________________");
+                                Console.WriteLine();
                             }
-                            if (selection == 2)
+                            else if (response == "y" && interact.Status == Status.CheckedOut)
                             {
-                                if (interact.Status != Status.CheckedOut )
+                                interact.Return();
+                                Console.WriteLine();
+                                Console.WriteLine("_____________________________________________");
+                                Console.WriteLine("Thank you for returning " + interact.Title + ".");
+                                //overdue check
+                                if (interact.DueDate < DateTime.Now && interact.DueDate > new DateTime(1900, 1, 1))
                                 {
-                                    Console.WriteLine("This book has not been checked out, therefore it cannot be returned.");
+                                    Console.WriteLine("As a courtesy, your fee has been waived.");
+                                    Console.WriteLine("Please return books before they are overdue in the future.");
                                 }
-                                else
-                                {
-                                    Console.WriteLine("Thank you for returning the book.");
-                                    interact.Return();
-                                }
+                                Console.WriteLine("_____________________________________________");
+                                Console.WriteLine();
                             }
                         }
                         else
@@ -369,13 +375,13 @@ namespace AlexandriaMemorialLibrary
                         break;
                 }
                 Console.WriteLine("Would you like to perform another action? (y/n)");
-                string again = Console.ReadLine().Trim().ToLower();
-                while (again != "y" && again != "n")
+                string choice = Console.ReadLine().Trim().ToLower();
+                while (choice != "y" && choice != "n")
                 {
                     Console.WriteLine("I didn't understand that. Please try again.");
-                    again = Console.ReadLine().Trim().ToLower();
+                    choice = Console.ReadLine().Trim().ToLower();
                 }
-                if (again == "n")
+                if (choice == "n")
                 {
                     Loop = false;
                 }
