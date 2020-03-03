@@ -460,25 +460,76 @@ namespace AlexandriaMemorialLibrary
             }
             Console.Clear();
             Console.WriteLine("_____________________________________________________________");
-            Console.WriteLine("Please select the genre of the book you would like to donate.");
+            Console.WriteLine("Please select the genre(s) of the book you would like to donate.");
             Console.WriteLine("Separate multiple genres with a space.");
             Console.WriteLine("_____________________________________________________________");
             Console.WriteLine();
             Console.WriteLine("_____________________________________________________________");
+            int r = 1;
             foreach (var item in Enum.GetNames(typeof(Genre)))
             {
-                Console.WriteLine(item);
+                Console.WriteLine(r + ": " + item);
+                r++;
             }
             Console.WriteLine("_____________________________________________________________");
-            string a = Console.ReadLine().Trim().ToLower();
+            string a = "";
+            List<string> genre = new List<string>();
+            bool detect = false;
+            while (!detect)
+            {
+                genre = new List<string>();
+                a = Console.ReadLine().Trim().ToLower();
+                string[] add = a.Split(' ');
+                foreach (string k in add)
+                {
+                    genre.Add(k);
+                }
+                foreach (string thing in genre)
+                {
+                    string g = thing.Trim();
+                    char p;
+                    try
+                    {
+                        p = char.Parse(g);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Please only input genre selection number(s).");
+                        break;
+                    }
+                    if (char.IsDigit(p))
+                    {
+                        detect = true;
+                    }
+                }
+            }
+            
             Console.Clear();
-            string[] genre = a.Split(' ');
+            List<int> intCheck = new List<int>();
+            foreach (string convert in genre)
+            {
+                int add = -1;
+                try
+                {
+                    add = int.Parse(convert);
+                }
+                catch (FormatException)
+                {
+
+                }
+                if (add > -1)
+                {
+                    add--;
+                    intCheck.Add(add);
+                }
+                
+            }
             List<Genre> genres = new List<Genre>();
-            foreach (string compare in genre)
+            foreach (int number in intCheck)
             {
                 foreach (Genre check in Enum.GetValues(typeof(Genre)))
                 {
-                    if (check.ToString().Trim().ToLower() == compare)
+                    if (check == (Genre)number)
                     {
                         genres.Add(check);
                     }
@@ -664,9 +715,12 @@ namespace AlexandriaMemorialLibrary
                     Console.WriteLine("_____________________________________________");
                     Console.WriteLine();
                     Console.WriteLine("_____________________________________________");
-                    foreach (var item in Enum.GetNames(typeof(Genre)))
+                    int q = 1;
+                    for (int i = 0; i < Enum.GetNames(typeof(Genre)).Length; i++)
                     {
-                        Console.WriteLine(item);
+                        Genre print = (Genre)i;
+                        Console.WriteLine(q + ": " + print);
+                        q++;
                     }
                     break;
                 case 5:
@@ -743,19 +797,28 @@ namespace AlexandriaMemorialLibrary
                     }
                     break;
                 case 4:
+                    int inputG = 0;
+                    try
+                    {
+                        inputG = int.Parse(compare);
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Please only enter numbers.");
+                    };
+
+                    while (inputG < 1 || inputG > 9)
+                    {
+                        Console.WriteLine("Please select an option from the menu.");
+                        inputG = UserInput();
+                    }
+                    inputG--;
                     foreach (Book book in library)
                     {
-                        foreach (Genre genre in Enum.GetValues(typeof(Genre)))
-                        {
-                            string genreCheck = genre.ToString().ToLower();
-                            if (book.Genre.Contains(genre))
+                            if (book.Genre.Contains((Genre)inputG))
                             {
-                                if (genreCheck == compare)
-                                {
                                     searchResults.Add(book);
-                                }
-                            }
-                        }
+                            }   
                     }
                     break;
             }
@@ -773,6 +836,7 @@ namespace AlexandriaMemorialLibrary
             }
             catch (FormatException)
             {
+                Console.WriteLine("Please only input numbers.");
                 output = 9999999;
             }
             return output;
