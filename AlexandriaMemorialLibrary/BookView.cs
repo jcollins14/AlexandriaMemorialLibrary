@@ -28,6 +28,10 @@ namespace AlexandriaMemorialLibrary
             {
                 Console.WriteLine("Due Date: " + ThisBook.DueDate);
             }
+            if (ThisBook.DueDate < DateTime.Now && ThisBook.DueDate > new DateTime(1900,1,1))
+            {
+                Console.WriteLine("This book is Overdue.");
+            }
         }
     }
 }

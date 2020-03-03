@@ -348,6 +348,11 @@ namespace AlexandriaMemorialLibrary
                                 Console.WriteLine();
                                 Console.WriteLine("_____________________________________________");
                                 Console.WriteLine("Thank you for returning " + interact.Title + ".");
+                                if (interact.DueDate < DateTime.Now && interact.DueDate > new DateTime(1900, 1, 1))
+                                {
+                                    Console.WriteLine("As a courtesy, your fee has been waived.");
+                                    Console.WriteLine("Please return books before they are overdue in the future.");
+                                }
                                 Console.WriteLine("_____________________________________________");
                                 Console.WriteLine();
                             }

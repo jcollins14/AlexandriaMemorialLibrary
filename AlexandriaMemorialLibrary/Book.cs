@@ -46,6 +46,7 @@ namespace AlexandriaMemorialLibrary
         public void Return()
         {
             this.Status = Status.OnShelf;
+            this.DueDate = new DateTime(1800, 1, 1);
         }
         //allows comparing books by title
         public int CompareTo(Book other)
