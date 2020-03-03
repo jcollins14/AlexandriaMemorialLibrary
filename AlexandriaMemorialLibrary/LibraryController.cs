@@ -40,6 +40,7 @@ namespace AlexandriaMemorialLibrary
             {
                 var savefile = File.Create("library.txt");
                 savefile.Close();
+                File.Delete("Charred Remains.txt");
                 StreamWriter write = new StreamWriter("library.txt");
                 write.WriteLine("Charred Remains|Julius Caesar|0|Unavailable|SelfHelp|1/1/1800 12:00:00 AM");
                 write.Close();
@@ -316,6 +317,13 @@ namespace AlexandriaMemorialLibrary
                             else if (interact.Status == Status.CheckedOut)
                             {
                                 Console.WriteLine("Would you like to return this book? (y/n)");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Apologies, no options are available for this book.");
+                                Console.WriteLine("_____________________________________________");
+                                Console.WriteLine();
+                                break;
                             }
                             Console.WriteLine("_____________________________________________");
                             string response = Console.ReadLine().Trim().ToLower();
@@ -636,6 +644,7 @@ namespace AlexandriaMemorialLibrary
                 Book add = new Book(title, author, isbn, status, genre, dueDate);
                 Library.Add(add);
             }
+
             read.Close();
         }
         //Saves current library to a text file
