@@ -511,7 +511,6 @@ namespace AlexandriaMemorialLibrary
                     }
                 }
             }
-            
             Console.Clear();
             List<int> intCheck = new List<int>();
             foreach (string convert in genre)
@@ -523,14 +522,12 @@ namespace AlexandriaMemorialLibrary
                 }
                 catch (FormatException)
                 {
-
                 }
                 if (add > -1)
                 {
                     add--;
                     intCheck.Add(add);
                 }
-                
             }
             List<Genre> genres = new List<Genre>();
             foreach (int number in intCheck)
